@@ -1,0 +1,11 @@
+[project]
+name = "catam-minimisation"
+version = "0.1.0"
+description = "CATAM 7.3 - Minimisation Methods (Steepest Descents, Conjugate Gradients, DFP)"
+requires-python = ">=3.13"
+dependencies = [
+    "numpy>=2.0",
+    "matplotlib>=3.9",
+    "scipy>=1.14",
+    "jupyterlab>=4.2",
+]
