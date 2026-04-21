@@ -1,0 +1,129 @@
+2 Project Reports
+2.1 Project write-ups: examination credit
+For each project, 40% of the marks available are awarded for writing programs that work and for
+producing correct graphs, tables of results and so on. A further 50% of the marks are awarded
+for answering mathematical questions in the project and for making appropriate mathematical
+observations about your results.
+The nal 10% of marks are awarded for the overall `excellence' of the write-up. Half of these
+`excellence' marks may be awarded for presentation, that is for producing good clear output
+(graphs, tables, etc.) which is easy to understand and interpret, and for the mathematical
+clarity of your report.
+The assessors may penalise a write-up that contains an excessive quantity of irrelevant material
+(see below). In such cases, the `excellence' mark may be reduced and could even become negative,
+as low as -10%.
+Unless the project species a way in which an algorithm should be implemented, marks are, in
+general, not awarded for programming style, good or bad. Conversely, if your output is poorly
+presented  for example, if your graphs are too small to be readable or are not annotated 
+then you may lose marks.
+No marks are given for the submission of program code without a report, or vice versa.
+The marks for each project are scaled so that a possible maximum of 150 marks are available
+for the Part II Computational Projects course. No quality marks (i.e. αs or βs) are awarded.
+The maximum contribution to the nal merit mark is thus 150 and the same as the maximum
+for a 16-lecture course
+
+.2 Project write-ups: advice
+Your record of the work done on each project should contain all the results asked for and your
+comments on these results, together with any graphs or tables asked for, clearly labelled and
+referred to in the report. However, it is important to remember that the project is set as a piece
+of mathematics, rather than an exercise in computer programming; thus the most important
+aspect of the write-up is the mathematical content. For instance:
+ Your comments on the results of the programs should go beyond a rehearsal of the program
+output and show an understanding of the mathematical and, if relevant, physical points
+involved. The write-up should demonstrate that you have noticed the most important
+features of your results, and understood the relevant mathematical background.
+ When discussing the computational method you have used, you should distinguish between
+points of interest in the algorithm itself, and details of your own particular implementation.
+Discussion of the latter is usually unnecessary, but if there is some reason for including it,
+please set it aside in your report under a special heading: it is rare for the assessors to be
+interested in the details of how your programs work.
+ Your comments should be pertinent and concise. Brief notes are perfectly satisfactory 
+provided that you cover the salient points, and make your meaning precise and unam-
+biguous  indeed, students who keep their comments concise can get better marks. An
+over-long report may well lead an assessor to the conclusion that the candidate is unsure
+of the essentials of a project and is using quantity in an attempt to hide the lack of quality.
+Do not copy out chunks of the text of the projects themselves: you may assume that the
+assessor is familiar with the background to each project and all the relevant equations.
+ Similarly you should not reproduce large chunks of your lecture notes; you will not gain
+credit for doing so (and indeed may lose credit as detailed in 2.1). However, you will be
+expected to reference results from theory, and show that you understand how they relate to
+your results. If you quote a theoretical result from a textbook, or from your notes, or from
+the WWW, you should give both a brief justication of the result and a full reference.8 If
+you are actually asked to prove a result, you should do so concisely.
+ Graphs will sometimes be required, for instance to reveal some qualitative features of your
+results. Such graphs, including labels, annotations, etc., need to be computer-generated
+7 Needless to say, if you submit fewer than 30 units no upwards scaling applies.
+8 See also the paragraph on Citations in 5
+July 2025/Part II/Introduction Page 6 of 19 ⃝c University of Cambridge
+(see also  2.3). Further, while it may be easier to include only one graph per page, it is
+often desirable (e.g. to aid comparison) to include two or more graphs on a page. Also,
+do not forget to clearly label the axes of graphs or other plots, and provide any other
+annotation necessary to interpret what is displayed. Similarly, the rows and columns of
+any tables produced should be clearly labelled.
+ You should take care to ensure that the assessor sees evidence that your programs do
+indeed perform the tasks you claim they do. In most cases, this can be achieved by
+including a sample output from the program. If a question asks you to write a program
+to perform a task but doesn't specify explicitly that you should use it on any particular
+data, you should provide some `test' data to run it on and include sample output in your
+write-up. Similarly, if a project asks you to `print' or `display' a numerical result, you
+should demonstrate that your program does indeed do this by including the output.
+ Above all, make sure you comment where the manual specically asks you to.
+It also helps the assessors if you answer the questions in the order that they appear in
+the manual and, if applicable, number your answers using the same numbering scheme
+as that used by the project. Make clear which outputs, tables and graphs correspond to
+which questions and programs.
+The following are indicative of some points that might be addressed in the report; they are not
+exhaustive and, of course not all will be appropriate for every project. In particular, some are
+more relevant to pure mathematical projects, and others to applied ones.
+ Does the algorithm or method always work? Have you tested it?
+ What is the theoretical running time, or complexity, of the algorithm? Note that this
+should be measured by the number of simple operations required, expressed in the usual
+Of (n) or Ωf (n) notation, where n is some reasonable measure of the size of the input
+(say the number of vertices of a graph) and f is a reasonably simple function. Examples
+of simple operations are the addition or multiplication of two numbers, or the checking of
+the (p, q) entry of a matrix to see if it is non-zero; with this denition nding the scalar
+product of two vectors of length n takes order n operations. Note that this measure of
+complexity can dier from the number of Matlab commands/`operations', e.g. there is a
+single Matlab command to nd a scalar product of two vectors of length n.
+ What is the accuracy of the numerical method? Is it particularly appropriate for the
+problem in question and, if so, why? How did you choose the step-size (if relevant), and
+how did you conrm that your numerical results are reliably accurate for all calculations
+performed?
+ How do the numerical answers you obtain relate to the mathematical or physical system
+being modelled? What conjectures or conclusions, if any, can you make from your results
+about the physical system or abstract mathematical object under consideration?
+In summary, it is the candidate's responsibility to determine which points require discussion
+in the report, to address these points fully but concisely, and to structure the whole so as to
+present a clear and complete response to the project. It should be possible to read your write-up
+without reference to the listing of your program
+
+2.2.1 Project write-ups: advice on length
+The word brief peppers the last few paragraphs. To emphasise this point, in general eight sides
+of A4 of text, excluding in-line graphs, tables, etc., should be plenty for a clear concise report
+of a seven or eight unit project.9 Indeed, the best reports are sometimes shorter than this.
+To this total you will of course need to add tables, graphs etc. However, do not include every
+single piece of output you generate: include a selection of the output that is a representative
+sample of graphs and tables. It is up to you to choose a selection which demonstrates all the
+important features but is reasonably concise. Presenting mathematical results in a clear and
+concise way is an important skill and one that you will be evaluated upon in CATAM. Twenty
+pages of graphs would be excessive for most projects, even if the graphs were one to a page.10
+Remember that the assessors will be allowed to deduct up to 10% of marks for any project
+containing an excessive quantity of irrelevant material. Typically, such a project might be long-
+winded, be very poorly structured, or contain long sections of prose that are not pertinent.
+Moreover, if your answer to the question posed is buried within a lot of irrelevant material then
+it may not receive credit, even if it is correct.
+2.3 Project write-ups: technicalities
+As emphasised above, elaborate write-ups are not required. You are required to submit your
+project reports electronically. In particular, you will be asked to submit your write-ups elec-
+tronically in Portable Document Format (PDF) form, and you should ensure that the submitted
+le can be printed (in portrait mode on standard A4 paper). Note that many word processors
+(e.g. LATEX, Microsoft Word, LibreOce) will generate output in PDF form. In addition, there
+are utility programs to convert output from one form to another, in particular to PDF form
+(e.g. there are programs that will convert plain text to PDF). Before you make your choice of
+word processor, you should conrm that you will be able to generate submittable output in PDF
+form. Please note that a PDF le including pages generated by scanning a hand-written report
+or other text document is not acceptable.
+In a very few projects, where a sketch (or similar) is asked for, a scanned hand-drawing is
+acceptable. Such exceptions will be noted explicitly in the project description.
+If it will prove dicult for you to produce electronic write-ups, e.g. because of a disability, then
+please contact the CATAM Helpline as early as possible in the academic year, so that reasonable
+adjustments can be made for you

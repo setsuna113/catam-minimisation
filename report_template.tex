@@ -1,0 +1,558 @@
+\documentclass[11pt,a4paper]{article}
+
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{subcaption}
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{hyperref}
+\usepackage{placeins}
+\usepackage{enumitem}
+
+\hypersetup{colorlinks=true,linkcolor=black,urlcolor=blue,citecolor=black}
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0.45em}
+\setlist[itemize]{leftmargin=1.5em,itemsep=0.15em,topsep=0.2em}
+
+\newcommand{\draftnote}[1]{\textcolor{gray}{\emph{#1}}}
+\newenvironment{reporthint}{%
+  \begin{quote}
+  \begingroup\color{gray}\small
+  \textbf{What to report.}
+  \begin{itemize}
+}{%
+  \end{itemize}
+  \endgroup
+  \end{quote}
+}
+\newcommand{\twodpoint}{(x,y)}
+\newcommand{\threedpoint}{(x,y,z)}
+
+\newcommand{\figslot}[4]{%
+  \begin{figure}[htbp]
+    \centering
+    \IfFileExists{#2}{%
+      \includegraphics[width=0.86\linewidth]{#2}%
+    }{%
+      \fbox{%
+        \begin{minipage}[c][0.22\textheight][c]{0.82\linewidth}
+          \centering
+          \textbf{Insert figure}\\[0.5em]
+          \texttt{\detokenize{#2}}\\[0.5em]
+          \draftnote{#3}
+        \end{minipage}%
+      }%
+    }
+    \caption{#4}
+    \label{#1}
+  \end{figure}
+}
+
+\newcommand{\smallmatrixslot}[1]{%
+  \[
+    #1 =
+    \begin{pmatrix}
+      \cdots & \cdots & \cdots\\
+      \cdots & \cdots & \cdots\\
+      \cdots & \cdots & \cdots
+    \end{pmatrix}
+  \]
+}
+
+\title{7.3 Minimisation Methods}
+\author{Candidate number: \draftnote{insert candidate number}}
+\date{\draftnote{insert date of final run}}
+
+\begin{document}
+\maketitle
+
+% Length plan:
+% Aim for about 6--8 sides of A4 text, excluding necessary figures and tables.
+% Keep each question answer close to the requested point. Do not copy project text.
+% Use concise mathematical comments, labelled graphs, and selected numerical output.
+% Include all line-search values used, since the project asks for them to appear in the hard copy.
+
+\section*{Computational Setup}
+
+\draftnote{In 3--5 sentences, state the language/environment, double precision, how
+\(\lambda^\ast\) was selected or checked, and how iteration data were recorded. Mention
+any convergence checks only if they affected the reported runs. Avoid implementation detail
+unless it explains a numerical result.}
+
+\begin{table}[htbp]
+\centering
+\caption{Summary of reported runs.}
+\label{tab:runs}
+\begin{tabular}{lllll}
+\toprule
+Run & Function & Method & Starting point & Iterations reported\\
+\midrule
+Q2 & (4) & Steepest descents & \((\cdots,\cdots)\) & \(\cdots\)\\
+Q3 & (5) & Steepest descents & \((\cdots,\cdots)\) & \(\cdots\)\\
+Q4 & (4) & Conjugate gradients & \((\cdots,\cdots)\) & \(\cdots\)\\
+Q5 & (5) & Conjugate gradients & \((\cdots,\cdots)\) & \(\cdots\)\\
+Q6 & (6) & DFP & \((\cdots,\cdots,\cdots)\) & \(\cdots\)\\
+Q7 & (4) & DFP & \((\cdots,\cdots)\) & \(\cdots\)\\
+Q8 & (5) & DFP & \((\cdots,\cdots)\) & \(\cdots\)\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\FloatBarrier
+
+\section*{Question 1: Shape and Analytic Minima}
+
+% Required: contour plots and/or surface plots of functions (4) and (5).
+% Use axis intervals -1.5 <= x,y <= 1.5 unless you have a clear reason to add an inset.
+% Label axes, contour levels, and the analytic minimum. A single two-panel contour figure
+% is usually more concise than multiple full-page plots.
+
+\begin{reporthint}
+\item Include one compact figure, preferably two panels, showing the qualitative shape of
+functions (4) and (5). Label axes, use readable contour levels or surface shading, and mark
+the analytically found minimum on each plot.
+\item Report the analytic calculation only to the extent needed to justify the entries in the
+table: the stationary equations, the candidate minimum point, the minimum value, and a
+brief check that it is a minimum.
+\item Avoid copying the function definitions or giving a long plotting discussion. The
+mathematical content should be the link between the plots, the stationary point calculation,
+and the minimum values.
+\end{reporthint}
+
+\begin{figure}[htbp]
+\centering
+\begin{subfigure}{0.48\linewidth}
+  \centering
+  \IfFileExists{figures/q1_function4_contour.pdf}{%
+    \includegraphics[width=\linewidth]{figures/q1_function4_contour.pdf}%
+  }{%
+    \fbox{\begin{minipage}[c][0.18\textheight][c]{0.92\linewidth}\centering
+    \draftnote{Insert contour or surface plot for function (4).}
+    \end{minipage}}%
+  }
+  \caption{Function (4)}
+  \label{fig:q1-f4}
+\end{subfigure}
+\hfill
+\begin{subfigure}{0.48\linewidth}
+  \centering
+  \IfFileExists{figures/q1_function5_contour.pdf}{%
+    \includegraphics[width=\linewidth]{figures/q1_function5_contour.pdf}%
+  }{%
+    \fbox{\begin{minipage}[c][0.18\textheight][c]{0.92\linewidth}\centering
+    \draftnote{Insert contour or surface plot for function (5).}
+    \end{minipage}}%
+  }
+  \caption{Function (5)}
+  \label{fig:q1-f5}
+\end{subfigure}
+\caption{Contours/surfaces used to visualise the two two-variable objective functions.}
+\label{fig:q1-contours}
+\end{figure}
+
+\begin{table}[htbp]
+\centering
+\caption{Analytic minima.}
+\label{tab:q1-minima}
+\begin{tabular}{llll}
+\toprule
+Function & Equations solved & Minimising point & Minimum value\\
+\midrule
+(4) & \(\nabla f=\mathbf{0}\), with check \(\cdots\) & \((\cdots,\cdots)\) & \(\cdots\)\\
+(5) & \(\nabla f=\mathbf{0}\), with check \(\cdots\) & \((\cdots,\cdots)\) & \(\cdots\)\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\draftnote{Write a concise derivation or verification of the two minima. Include only
+the algebra needed to justify the entries in Table~\ref{tab:q1-minima}; do not reproduce
+the full project statement.}
+
+\FloatBarrier
+
+\section*{Questions 2--3: Steepest Descents}
+
+% Include enough output to show the program worked: iteration path plot, values of
+% lambda*, f(x_n), and decreases. Use comments to interpret the results rather than
+% merely repeating table entries.
+
+\subsection*{Question 2: Function (4)}
+
+\begin{reporthint}
+\item Required evidence: a path plot for the 10 steepest-descents iterations, plus a trace
+table containing \(\lambda^\ast\), \(f(x_n)\), and the decrease after each step.
+\item From the numerical run alone, give an estimated limiting minimum value and intervals
+for the two coordinates. Make clear these are estimates from the iteration, not copied from
+the analytic answer in Q1.
+\item Discuss why the minimum value can appear more accurately determined than the
+point itself. Use the local contour shape, flat or shallow directions, and the size of recent
+decreases as evidence.
+\item Keep the prose focused on what the results show; do not describe the program beyond
+what is needed to explain the line searches.
+\end{reporthint}
+
+\figslot{fig:q2-path}{figures/q2_steepest_function4_path.pdf}
+{Iteration path from the specified starting point, with contour background if useful.}
+{Steepest-descents path for function (4).}
+
+\begin{table}[htbp]
+\centering
+\caption{Steepest-descents trace for function (4).}
+\label{tab:q2-trace}
+\begin{tabular}{rrrrrr}
+\toprule
+\(n\) & \(x_n\) & \(y_n\) & \(\lambda_n^\ast\) & \(f(x_n)\) & Decrease\\
+\midrule
+0  & \(\cdots\) & \(\cdots\) & -- & \(\cdots\) & --\\
+1  & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\)\\
+2  & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\)\\
+3  & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\)\\
+4  & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\)\\
+5  & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\)\\
+6  & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\)\\
+7  & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\)\\
+8  & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\)\\
+9  & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\)\\
+10 & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\)\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\draftnote{Estimate the limiting minimum value and coordinate intervals using only the
+numerical run. Then comment on why the value may be better determined than the location,
+linking this to the local shape of the function.}
+
+\subsection*{Question 3: Function (5)}
+
+\begin{reporthint}
+\item Required evidence: a path plot for a chosen run of 9--15 iterations and a compact trace
+table with \(\lambda^\ast\), values, and decreases. If the full table is too long, keep enough rows
+to show the pattern and state where omitted rows are represented.
+\item State the point to which the method appears to converge and support this using the
+iteration path and recent coordinates, without relying solely on the known analytic answer.
+\item Comment on the convergence rate and sensitivity to small changes in the line-search
+choices. A short comparison of two nearby \(\lambda^\ast\) choices or paths is enough if it shows
+the effect clearly.
+\item Relate any inefficiency to the geometry of the objective, such as elongated or curved
+valleys and repeated changes of direction, rather than to coding details.
+\end{reporthint}
+
+\figslot{fig:q3-path}{figures/q3_steepest_function5_path.pdf}
+{Iteration path for 9--15 iterations; add contours if this helps show slow progress.}
+{Steepest-descents path for function (5).}
+
+\begin{table}[htbp]
+\centering
+\caption{Steepest-descents trace for function (5).}
+\label{tab:q3-trace}
+\begin{tabular}{rrrrrr}
+\toprule
+\(n\) & \(x_n\) & \(y_n\) & \(\lambda_n^\ast\) & \(f(x_n)\) & Decrease\\
+\midrule
+0 & \(\cdots\) & \(\cdots\) & -- & \(\cdots\) & --\\
+1 & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\)\\
+2 & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\)\\
+3 & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\)\\
+4 & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\)\\
+5 & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\)\\
+\(\vdots\) & & & & &\\
+\(m\) & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\)\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\draftnote{State the likely limiting point, comment on convergence rate, and summarise
+one or two sensitivity checks for small changes in \(\lambda^\ast\). Explain the geometric
+circumstances under which steepest descents is inefficient.}
+
+\FloatBarrier
+
+\section*{Questions 4--5: Conjugate Gradients}
+
+% Use the same evidence style as Q2--Q3 so comparisons are direct. For two-variable
+% functions, note any restart convention used, but keep method description short.
+
+\subsection*{Question 4: Function (4)}
+
+\begin{reporthint}
+\item Use the same reporting format as Q2 so the comparison is immediate: path plot, trace
+table, final numerical estimates, and line-search values.
+\item Identify where conjugate-gradient steps differ from steepest descents, especially after
+the first step and after any restart. A ``step type'' column is enough; no long derivation of
+the algorithm is needed.
+\item Compare against Q2 using observed progress per iteration, path geometry, and final
+value/location estimates. The answer should say whether the method improves the Q2 run
+for this function, and in what sense.
+\end{reporthint}
+
+\figslot{fig:q4-path}{figures/q4_cg_function4_path.pdf}
+{Conjugate-gradient path for the same start and iteration count as Q2.}
+{Conjugate-gradient path for function (4).}
+
+\begin{table}[htbp]
+\centering
+\caption{Conjugate-gradient trace for function (4).}
+\label{tab:q4-trace}
+\begin{tabular}{rrrrrrl}
+\toprule
+\(n\) & \(x_n\) & \(y_n\) & \(\lambda_n^\ast\) & \(f(x_n)\) & Decrease & Step type\\
+\midrule
+0 & \(\cdots\) & \(\cdots\) & -- & \(\cdots\) & -- & start\\
+1 & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\) & SD\\
+2 & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\) & CG/restart\\
+\(\vdots\) & & & & & &\\
+10 & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\)\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\draftnote{Compare with Q2 using the same quantities: path geometry, final value,
+estimated minimiser, and sensitivity to the chosen line searches.}
+
+\subsection*{Question 5: Function (5)}
+
+\begin{reporthint}
+\item Mirror Q3: give the conjugate-gradient path, trace table, line-search values, and the
+same kind of convergence comments.
+\item Compare directly with Q3 on the quantities the assessor can see: number of iterations,
+decreases in \(f\), shape of the path, and apparent sensitivity to \(\lambda^\ast\).
+\item End with a short answer to whether conjugate gradients gives much improvement over
+steepest descents across Q4 and Q5. Keep the conclusion tied to the two tested functions,
+not to general textbook claims.
+\end{reporthint}
+
+\figslot{fig:q5-path}{figures/q5_cg_function5_path.pdf}
+{Conjugate-gradient path for the same start and comparable iteration count as Q3.}
+{Conjugate-gradient path for function (5).}
+
+\begin{table}[htbp]
+\centering
+\caption{Conjugate-gradient trace for function (5).}
+\label{tab:q5-trace}
+\begin{tabular}{rrrrrrl}
+\toprule
+\(n\) & \(x_n\) & \(y_n\) & \(\lambda_n^\ast\) & \(f(x_n)\) & Decrease & Step type\\
+\midrule
+0 & \(\cdots\) & \(\cdots\) & -- & \(\cdots\) & -- & start\\
+1 & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\) & SD\\
+2 & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\) & CG/restart\\
+\(\vdots\) & & & & & &\\
+\(m\) & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\)\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\draftnote{Compare with Q3, then answer whether conjugate gradients offers much
+improvement over steepest descents for these two functions. Keep this as a short
+evidence-based paragraph rather than a general essay.}
+
+\FloatBarrier
+
+\section*{Questions 6--8: DFP Algorithm}
+
+% Include H output, since the project asks for it. Use matrix displays only for the
+% final or most informative H values; do not print every intermediate matrix unless it
+% materially supports the answer.
+
+\subsection*{Question 6: Quadratic Function (6)}
+
+\begin{reporthint}
+\item Required evidence: the three DFP steps from the given starting point using the given
+\(\lambda^\ast\) sequence, including the final point, final value, and printed \(H\) matrix.
+\item Check the special quadratic property by comparing the three-step result with the
+expected behaviour for a quadratic in three variables. Keep this numerical and concise.
+\item Investigate sensitivity by changing the supplied \(\lambda^\ast\) values slightly and reporting
+a small selection of outcomes. A table of perturbations is more concise than several
+paragraphs.
+\item Verify that \(H\) tends to the inverse Hessian by comparing entries or by reporting a
+matrix norm of the difference. Do not print every intermediate \(H\) unless it supports a
+specific point.
+\end{reporthint}
+
+\begin{table}[htbp]
+\centering
+\caption{DFP trace for the three-dimensional quadratic.}
+\label{tab:q6-trace}
+\begin{tabular}{rrrrrr}
+\toprule
+\(n\) & \(x_n\) & \(y_n\) & \(z_n\) & \(\lambda_n^\ast\) & \(f(x_n)\)\\
+\midrule
+0 & \(\cdots\) & \(\cdots\) & \(\cdots\) & -- & \(\cdots\)\\
+1 & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\)\\
+2 & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\)\\
+3 & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\)\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\smallmatrixslot{H_3}
+
+\begin{table}[htbp]
+\centering
+\caption{Sensitivity of the three-iteration DFP result to line-search perturbations.}
+\label{tab:q6-sensitivity}
+\begin{tabular}{llll}
+\toprule
+Perturbation to \(\lambda^\ast\) values & Final point & Final value & Comment\\
+\midrule
+none & \(\cdots\) & \(\cdots\) & \(\cdots\)\\
+\(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\)\\
+\(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\)\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\draftnote{Verify that the reported \(H\) is tending to the inverse Hessian by comparing
+selected entries or a norm of the difference. Comment on sensitivity to line-search errors;
+do not rederive the DFP update.}
+
+\subsection*{Question 7: Function (4)}
+
+\begin{reporthint}
+\item Repeat the Q2 evidence using DFP: path plot, trace table, \(\lambda^\ast\) values, and a
+brief estimate of the limiting point/value.
+\item Include the printed final or representative \(H\) matrix, then compare it with the true
+inverse Hessian at the relevant point. State exactly what point was used for the Hessian
+comparison.
+\item Compare with Q2 and Q4 in terms of convergence, path shape, and how much curvature
+information appears to help for function (4).
+\end{reporthint}
+
+\figslot{fig:q7-path}{figures/q7_dfp_function4_path.pdf}
+{DFP path for function (4), comparable to Q2 and Q4.}
+{DFP path for function (4).}
+
+\begin{table}[htbp]
+\centering
+\caption{DFP trace for function (4).}
+\label{tab:q7-trace}
+\begin{tabular}{rrrrrr}
+\toprule
+\(n\) & \(x_n\) & \(y_n\) & \(\lambda_n^\ast\) & \(f(x_n)\) & Decrease\\
+\midrule
+0 & \(\cdots\) & \(\cdots\) & -- & \(\cdots\) & --\\
+1 & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\)\\
+2 & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\)\\
+\(\vdots\) & & & & &\\
+\(m\) & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\)\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\[
+H_m =
+\begin{pmatrix}
+\cdots & \cdots\\
+\cdots & \cdots
+\end{pmatrix},
+\qquad
+G(\text{comparison point})^{-1} =
+\begin{pmatrix}
+\cdots & \cdots\\
+\cdots & \cdots
+\end{pmatrix}.
+\]
+
+\draftnote{Compare the final or representative \(H\) with the true inverse Hessian at
+the relevant point. Then compare the DFP run with Q2 and Q4.}
+
+\subsection*{Question 8: Function (5)}
+
+\begin{reporthint}
+\item Repeat the Q3 evidence using DFP: path plot, trace table, \(\lambda^\ast\) values, and
+comments on convergence toward the apparent limiting point.
+\item Include the printed final or representative \(H\) matrix and compare it with the true
+inverse Hessian at the chosen comparison point. Mention whether the entries are reliable
+enough to support the comparison.
+\item Compare with Q3 and Q5, especially for the narrow-valley behaviour and the amount of
+progress achieved per iteration.
+\end{reporthint}
+
+\figslot{fig:q8-path}{figures/q8_dfp_function5_path.pdf}
+{DFP path for function (5), comparable to Q3 and Q5.}
+{DFP path for function (5).}
+
+\begin{table}[htbp]
+\centering
+\caption{DFP trace for function (5).}
+\label{tab:q8-trace}
+\begin{tabular}{rrrrrr}
+\toprule
+\(n\) & \(x_n\) & \(y_n\) & \(\lambda_n^\ast\) & \(f(x_n)\) & Decrease\\
+\midrule
+0 & \(\cdots\) & \(\cdots\) & -- & \(\cdots\) & --\\
+1 & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\)\\
+2 & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\)\\
+\(\vdots\) & & & & &\\
+\(m\) & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\) & \(\cdots\)\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\[
+H_m =
+\begin{pmatrix}
+\cdots & \cdots\\
+\cdots & \cdots
+\end{pmatrix},
+\qquad
+G(\text{comparison point})^{-1} =
+\begin{pmatrix}
+\cdots & \cdots\\
+\cdots & \cdots
+\end{pmatrix}.
+\]
+
+\draftnote{Compare the final or representative \(H\) with the true inverse Hessian at
+the relevant point. Then compare the DFP run with Q3 and Q5.}
+
+\FloatBarrier
+
+\section*{Question 9: Overall Comparison}
+
+\begin{reporthint}
+\item This is the synthesis question: compare all three methods using the numerical evidence
+already shown, not new bulk output.
+\item Use a compact table for final values/locations and iteration counts, then one concise
+paragraph on the main pattern for function (4) and one for function (5), or one combined
+paragraph if the conclusion is simple.
+\item Address accuracy, sensitivity to line searches, path shape, and whether curvature
+information improved the method. Avoid a general essay on optimisation methods.
+\end{reporthint}
+
+\begin{table}[htbp]
+\centering
+\caption{Performance comparison of the three methods.}
+\label{tab:q9-comparison}
+\begin{tabular}{lllll}
+\toprule
+Function & Method & Iterations used & Final value/location summary & Main observation\\
+\midrule
+(4) & Steepest descents & \(\cdots\) & \(\cdots\) & \(\cdots\)\\
+(4) & Conjugate gradients & \(\cdots\) & \(\cdots\) & \(\cdots\)\\
+(4) & DFP & \(\cdots\) & \(\cdots\) & \(\cdots\)\\
+(5) & Steepest descents & \(\cdots\) & \(\cdots\) & \(\cdots\)\\
+(5) & Conjugate gradients & \(\cdots\) & \(\cdots\) & \(\cdots\)\\
+(5) & DFP & \(\cdots\) & \(\cdots\) & \(\cdots\)\\
+\bottomrule
+\end{tabular}
+\end{table}
+
+\draftnote{Use this final paragraph to answer the comparison question directly.
+Discuss accuracy, iteration-path shape, sensitivity to \(\lambda^\ast\), and whether each
+method exploited curvature information. Keep the conclusion tied to the two functions
+actually tested.}
+
+\section*{References}
+
+\begin{thebibliography}{9}
+\bibitem{fletcher-powell}
+R. Fletcher and M. J. D. Powell, \emph{Rapidly convergent descent method for minimisation},
+Computer Journal, 7 (1963).
+
+% Add any lecture notes or texts actually used for theoretical claims.
+\end{thebibliography}
+
+\end{document}
