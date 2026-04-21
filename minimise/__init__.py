@@ -1,6 +1,4 @@
-"""CATAM 7.3 — Minimisation Methods."""
-
-from .problems import (
+from .functions import (
     HESS_QUAD3_INV,
     f_bedpan,
     f_quad3,

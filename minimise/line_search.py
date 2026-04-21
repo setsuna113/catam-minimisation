@@ -1,12 +1,9 @@
-"""Line-search helpers for choosing lambda*."""
+"""Line-search helpers for choosing lambda*"""
 
 from __future__ import annotations
-
 from typing import Callable
-
 import matplotlib.pyplot as plt
 import numpy as np
-from scipy.optimize import minimize_scalar
 
 
 def plot_phi(
@@ -17,7 +14,7 @@ def plot_phi(
     n: int = 400,
     ax=None,
 ):
-    """Plot phi(lambda) = f(x0 + lambda*s).  Useful for picking lambda* by eye."""
+    """phi(lambda) = f(x0 + lambda*s)"""
     lams = np.linspace(lam_range[0], lam_range[1], n)
     vals = np.array([f(x0 + lam * s) for lam in lams])
     if ax is None:
@@ -38,10 +35,13 @@ def line_search_auto(
     x0: np.ndarray,
     s: np.ndarray,
     bracket: tuple[float, float] = (0.0, 2.0),
+    n_points: int = 201,
 ) -> float:
-    """Automated lambda* via scipy's bounded scalar minimiser."""
-    res = minimize_scalar(lambda lam: f(x0 + lam * s), bounds=bracket, method="bounded")
-    return float(res.x)
+    """Automated lambda* via grid search (precision to ~2 decimal places)"""
+    lams = np.linspace(bracket[0], bracket[1], n_points)
+    vals = np.array([f(x0 + lam * s) for lam in lams])
+    kmin = int(np.argmin(vals))
+    return float(lams[kmin])
 
 
 def ask_lambda(
@@ -50,7 +50,7 @@ def ask_lambda(
     s: np.ndarray,
     lam_range: tuple[float, float] = (-0.2, 2.0),
 ) -> float:
-    """Plot phi(lambda) then prompt the user for lambda*.  Used by 'manual' mode."""
+    """Plot phi(lambda) then prompt the user for lambda* (in manual mode)"""
     plot_phi(f, x0, s, lam_range=lam_range)
     plt.show()
     raw = input(f"λ* (2 sig figs is fine; default = auto): ").strip()

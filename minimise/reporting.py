@@ -11,7 +11,7 @@ from .runner import Step
 
 
 def print_table(history: list[Step], show_H: bool = False) -> None:
-    """Tabular summary of an iteration history, suitable for pasting into a writeup."""
+    """Tabular summary of an iteration history"""
     dim = history[0].x.size
     x_hdrs = "  ".join(f"x{i + 1:<10}" for i in range(dim))
     print(f"{'k':>2}  {x_hdrs}  {'f(x)':>12}  {'Δf':>11}  {'λ*':>9}  {'|g|':>9}")
@@ -32,25 +32,31 @@ def plot_trajectory(
     history: list[Step],
     xlim: tuple[float, float] = (-1.5, 1.5),
     ylim: tuple[float, float] = (-1.5, 1.5),
-    levels: int | Sequence[float] = 30,
+    levels: int | Sequence[float] | np.ndarray = 30,
     ax=None,
     label: str | None = None,
 ):
-    """Contour of a 2-variable f with iteration points joined by line segments."""
-    assert history[0].x.size == 2, "plot_trajectory is for 2-variable functions only"
+    """Contour of a 2-variable function"""
+    if history:
+        assert history[0].x.size == 2, "plot_trajectory is for 2-variable functions only"
+    
     xs = np.linspace(xlim[0], xlim[1], 200)
     ys = np.linspace(ylim[0], ylim[1], 200)
     X, Y = np.meshgrid(xs, ys)
     Z = np.vectorize(lambda a, b: f(np.array([a, b])))(X, Y)
+    
     if ax is None:
         _, ax = plt.subplots(figsize=(6, 6))
         ax.contour(X, Y, Z, levels=levels, linewidths=0.5, colors="0.7")
-    path = np.array([st.x for st in history])
-    ax.plot(path[:, 0], path[:, 1], "-o", markersize=4, label=label)
-    for st in history:
-        ax.annotate(
-            str(st.k), xy=st.x, xytext=(4, 4), textcoords="offset points", fontsize=8
-        )
+        
+    if history:
+        path = np.array([st.x for st in history])
+        ax.plot(path[:, 0], path[:, 1], "-o", markersize=4, label=label)
+        for st in history:
+            ax.annotate(
+                str(st.k), xy=(float(st.x[0]), float(st.x[1])), xytext=(4, 4), textcoords="offset points", fontsize=8
+            )
+            
     ax.set_xlim(xlim)
     ax.set_ylim(ylim)
     ax.set_xlabel("x")
@@ -67,7 +73,7 @@ def plot_surface(
     ylim: tuple[float, float] = (-1.5, 1.5),
     n: int = 80,
 ):
-    """3D surface plot for a 2-variable f (used in Q1)."""
+    """3D surface plot for a 2-variable function"""
     xs = np.linspace(xlim[0], xlim[1], n)
     ys = np.linspace(ylim[0], ylim[1], n)
     X, Y = np.meshgrid(xs, ys)
@@ -79,3 +85,20 @@ def plot_surface(
     ax.set_ylabel("y")
     ax.set_zlabel("f(x, y)")
     return ax
+
+
+if __name__ == "__main__":
+    from .functions import f_bedpan, f_rosen
+
+    print("PLotting function 4: bedpan...")
+    plot_surface(f_bedpan, xlim=(-2, 2.5), ylim=(-2, 1.5))
+    plot_trajectory(f_bedpan, history=[], xlim=(-2, 2.5), ylim=(-2, 1.5), levels=40)
+
+    print("Plottingh function 5: Rosenbrock...")
+    plot_surface(f_rosen, xlim=(-1.5, 2), ylim=(-1, 3))
+    
+    plot_trajectory(
+        f_rosen, history=[], xlim=(-1.5, 2), ylim=(-1, 3), levels=40
+    )
+
+    plt.show()

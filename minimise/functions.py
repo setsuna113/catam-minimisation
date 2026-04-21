@@ -1,9 +1,7 @@
-"""Test functions, analytic gradients, and numerical gradient checker."""
+"""functions definitions, analytic gradients, and numerical gradient checker."""
 
 from __future__ import annotations
-
 from typing import Callable
-
 import numpy as np
 
 
@@ -63,7 +61,7 @@ HESS_QUAD3_INV = np.array(
 def numerical_gradient(
     f: Callable[[np.ndarray], float], x: np.ndarray, eps: float = 1e-6
 ) -> np.ndarray:
-    """Central-difference gradient for checking hand-derived gradients."""
+    """Central-difference gradient for checking hand-derived gradients"""
     x = np.asarray(x, dtype=float)
     g = np.zeros_like(x)
     for i in range(x.size):

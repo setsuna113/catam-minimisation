@@ -1,7 +1,6 @@
-"""Search-direction strategies: Steepest Descents, Conjugate Gradients, DFP."""
+"""Search-direction strategies: Steepest Descents, Conjugate Gradients, DFP"""
 
 from __future__ import annotations
-
 import numpy as np
 
 

@@ -118,6 +118,16 @@ def minimise(
                 f"  |g|={np.linalg.norm(g_new):.3g}"
             )
 
+        if lam_source == "auto":
+            if np.linalg.norm(g_new) < 1e-6:
+                if verbose:
+                    print("  [stop] fully-automatic mode quit: g ≈ 0 (Stationary point)")
+                break
+            if np.linalg.norm(x_new - x) < 1e-6:
+                if verbose:
+                    print("  [stop] fully-automatic mode quit: points not changing significantly")
+                break
+
         x = x_new
         g = g_new
 
