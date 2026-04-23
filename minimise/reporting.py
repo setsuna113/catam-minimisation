@@ -7,7 +7,7 @@ from typing import Callable, Sequence
 import matplotlib.pyplot as plt
 import numpy as np
 
-from .runner import Step
+from minimise.runner import Step
 
 
 def print_table(history: list[Step], show_H: bool = False) -> None:
@@ -88,17 +88,61 @@ def plot_surface(
 
 
 if __name__ == "__main__":
-    from .functions import f_bedpan, f_rosen
+    from pathlib import Path
 
-    print("PLotting function 4: bedpan...")
-    plot_surface(f_bedpan, xlim=(-2, 2.5), ylim=(-2, 1.5))
-    plot_trajectory(f_bedpan, history=[], xlim=(-2, 2.5), ylim=(-2, 1.5), levels=40)
+    from minimise.functions import f_bedpan, f_rosen
 
-    print("Plottingh function 5: Rosenbrock...")
-    plot_surface(f_rosen, xlim=(-1.5, 2), ylim=(-1, 3))
-    
-    plot_trajectory(
-        f_rosen, history=[], xlim=(-1.5, 2), ylim=(-1, 3), levels=40
-    )
+    xs = np.linspace(-1.5, 1.5, 300)
+    ys = np.linspace(-1.5, 1.5, 300)
+    X, Y = np.meshgrid(xs, ys)
+    Z4 = np.vectorize(lambda a, b: f_bedpan(np.array([a, b])))(X, Y)
+    Z5 = np.vectorize(lambda a, b: f_rosen(np.array([a, b])))(X, Y)
 
-    plt.show()
+    x4_star, y4_star = 2 ** (-2 / 3) - 1, -(2 ** (-1 / 3))
+    f4_star = float(f_bedpan(np.array([x4_star, y4_star])))
+    x5_star, y5_star, f5_star = 1.0, 1.0, 0.0
+
+    fig = plt.figure(figsize=(11, 10))
+
+    # Top-left: contour of function (4)
+    ax_c4 = fig.add_subplot(2, 2, 1)
+    cs4 = ax_c4.contour(X, Y, Z4, levels=18, linewidths=0.6, colors="0.35")
+    ax_c4.clabel(cs4, inline=True, fontsize=7, fmt="%.2g")
+    ax_c4.plot(x4_star, y4_star, marker="*", color="red", markersize=14, linestyle="none")
+    ax_c4.set_title("Function (4): contour")
+    ax_c4.set_xlabel("x"); ax_c4.set_ylabel("y")
+    ax_c4.set_xlim(-1.5, 1.5); ax_c4.set_ylim(-1.5, 1.5)
+    ax_c4.set_aspect("equal", adjustable="box")
+
+    # Top-right: contour of function (5)
+    ax_c5 = fig.add_subplot(2, 2, 2)
+    cs5 = ax_c5.contour(X, Y, Z5, levels=18, linewidths=0.6, colors="0.35")
+    ax_c5.clabel(cs5, inline=True, fontsize=7, fmt="%.2g")
+    ax_c5.plot(x5_star, y5_star, marker="*", color="red", markersize=14, linestyle="none")
+    ax_c5.set_title("Function (5): contour")
+    ax_c5.set_xlabel("x"); ax_c5.set_ylabel("y")
+    ax_c5.set_xlim(-1.5, 1.5); ax_c5.set_ylim(-1.5, 1.5)
+    ax_c5.set_aspect("equal", adjustable="box")
+
+    # Bottom-left: surface of function (4)
+    ax_s4 = fig.add_subplot(2, 2, 3, projection="3d")
+    ax_s4.plot_surface(X, Y, Z4, cmap="viridis", linewidth=0, antialiased=True, alpha=0.9)
+    ax_s4.scatter([x4_star], [y4_star], [f4_star], color="red", s=60, marker="*")  # type: ignore[arg-type]
+    ax_s4.set_title("Function (4): surface")
+    ax_s4.set_xlabel("x"); ax_s4.set_ylabel("y"); ax_s4.set_zlabel("f")
+
+    # Bottom-right: surface of function (5); clip the tall walls so the valley is visible
+    Z5_clip = np.minimum(Z5, 40.0)
+    ax_s5 = fig.add_subplot(2, 2, 4, projection="3d")
+    ax_s5.plot_surface(X, Y, Z5_clip, cmap="viridis", linewidth=0, antialiased=True, alpha=0.9)
+    ax_s5.scatter([x5_star], [y5_star], [f5_star], color="red", s=60, marker="*")  # type: ignore[arg-type]
+    ax_s5.set_title("Function (5): surface (clipped at f=40)")
+    ax_s5.set_xlabel("x"); ax_s5.set_ylabel("y"); ax_s5.set_zlabel("f")
+
+    fig.suptitle(r"Contour and surface views on $[-1.5,1.5]^2$; red $\star$ = analytic minimum")
+    fig.tight_layout()
+
+    out = Path("figures")
+    out.mkdir(exist_ok=True)
+    fig.savefig(out / "q1_contours.pdf", bbox_inches="tight")
+    print(f"wrote {out / 'q1_contours.pdf'}")

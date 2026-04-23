@@ -1,4 +1,4 @@
-from .functions import (
+from minimise.functions import (
     HESS_QUAD3_INV,
     f_bedpan,
     f_quad3,
@@ -8,10 +8,10 @@ from .functions import (
     grad_rosen,
     numerical_gradient,
 )
-from .algorithms import ConjugateGradient, DFP, SteepestDescent
-from .line_search import ask_lambda, line_search_auto, plot_phi
-from .runner import Step, minimise
-from .reporting import plot_surface, plot_trajectory, print_table
+from minimise.algorithms import ConjugateGradient, DFP, SteepestDescent
+from minimise.line_search import ask_lambda, line_search_auto, plot_phi
+from minimise.runner import Step, minimise
+from minimise.reporting import plot_surface, plot_trajectory, print_table
 
 __all__ = [
     "f_bedpan", "grad_bedpan",

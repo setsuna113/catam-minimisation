@@ -7,7 +7,7 @@ from typing import Callable, Sequence
 
 import numpy as np
 
-from .line_search import ask_lambda, line_search_auto
+from minimise.line_search import ask_lambda, line_search_auto
 
 
 @dataclass

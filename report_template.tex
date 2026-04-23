@@ -104,71 +104,42 @@ Q8 & (5) & DFP & \((\cdots,\cdots)\) & \(\cdots\)\\
 
 \section*{Question 1: Shape and Analytic Minima}
 
-% Required: contour plots and/or surface plots of functions (4) and (5).
-% Use axis intervals -1.5 <= x,y <= 1.5 unless you have a clear reason to add an inset.
-% Label axes, contour levels, and the analytic minimum. A single two-panel contour figure
-% is usually more concise than multiple full-page plots.
-
-\begin{reporthint}
-\item Include one compact figure, preferably two panels, showing the qualitative shape of
-functions (4) and (5). Label axes, use readable contour levels or surface shading, and mark
-the analytically found minimum on each plot.
-\item Report the analytic calculation only to the extent needed to justify the entries in the
-table: the stationary equations, the candidate minimum point, the minimum value, and a
-brief check that it is a minimum.
-\item Avoid copying the function definitions or giving a long plotting discussion. The
-mathematical content should be the link between the plots, the stationary point calculation,
-and the minimum values.
-\end{reporthint}
-
 \begin{figure}[htbp]
 \centering
-\begin{subfigure}{0.48\linewidth}
-  \centering
-  \IfFileExists{figures/q1_function4_contour.pdf}{%
-    \includegraphics[width=\linewidth]{figures/q1_function4_contour.pdf}%
-  }{%
-    \fbox{\begin{minipage}[c][0.18\textheight][c]{0.92\linewidth}\centering
-    \draftnote{Insert contour or surface plot for function (4).}
-    \end{minipage}}%
-  }
-  \caption{Function (4)}
-  \label{fig:q1-f4}
-\end{subfigure}
-\hfill
-\begin{subfigure}{0.48\linewidth}
-  \centering
-  \IfFileExists{figures/q1_function5_contour.pdf}{%
-    \includegraphics[width=\linewidth]{figures/q1_function5_contour.pdf}%
-  }{%
-    \fbox{\begin{minipage}[c][0.18\textheight][c]{0.92\linewidth}\centering
-    \draftnote{Insert contour or surface plot for function (5).}
-    \end{minipage}}%
-  }
-  \caption{Function (5)}
-  \label{fig:q1-f5}
-\end{subfigure}
-\caption{Contours/surfaces used to visualise the two two-variable objective functions.}
+\includegraphics[width=0.95\linewidth]{figures/q1_contours.pdf}
+\caption{Contour and surface plots of functions (4) and (5) on
+\([-1.5,1.5]^{2}\); red stars mark the analytic minima.}
 \label{fig:q1-contours}
 \end{figure}
 
 \begin{table}[htbp]
 \centering
-\caption{Analytic minima.}
+\caption{Analytic minima of the two two-variable objectives.}
 \label{tab:q1-minima}
-\begin{tabular}{llll}
+\begin{tabular}{lll}
 \toprule
-Function & Equations solved & Minimising point & Minimum value\\
+Function & Minimiser \((x^{*},y^{*})\) & \(f^{*}\)\\
 \midrule
-(4) & \(\nabla f=\mathbf{0}\), with check \(\cdots\) & \((\cdots,\cdots)\) & \(\cdots\)\\
-(5) & \(\nabla f=\mathbf{0}\), with check \(\cdots\) & \((\cdots,\cdots)\) & \(\cdots\)\\
+(4) & \((-0.3700,\,-0.7937)\) & \(-1.0953\)\\
+(5) & \((1,\,1)\) & \(0\)\\
 \bottomrule
 \end{tabular}
 \end{table}
 
-\draftnote{Write a concise derivation or verification of the two minima. Include only
-the algebra needed to justify the entries in Table~\ref{tab:q1-minima}; do not reproduce
-the full project statement.}
+\textbf{Function (4).}
+\begin{itemize}
+\item Solve \(\partial_x f = 1+x-y^{2} = 0\):\ \ \(x = y^{2}-1\).
+\item Sub into \(\partial_y f = 1-2y+4y(y^{2}-x/2) = 0\):\ \ \(1+2y^{3}=0 \Rightarrow y^{*} = -2^{-1/3},\ \ x^{*} = 2^{-2/3}-1\) (unique real root).
+\item Hessian: \(H = \bigl(\begin{smallmatrix}1 & -2y^{*}\\ -2y^{*} & -2+12y^{*2}-2x^{*}\end{smallmatrix}\bigr) \approx \bigl(\begin{smallmatrix}1 & 1.587\\ 1.587 & 6.300\end{smallmatrix}\bigr)\);\ \ \(\det H \approx 3.78 > 0,\ \operatorname{tr} H > 0\) \(\Rightarrow\) local min.
+\item \((y^{2}-x/2)^{2} \to \infty\) as \(|(x,y)| \to \infty\) \(\Rightarrow\) also global min.
+\item Eliminate \(x=y^{2}-1\) in \(f\):\ \ \(f^{*} = -\tfrac{1}{2} - 2^{-1/3} + 2^{-7/3} \approx -1.0953\).
+\end{itemize}
+
+\textbf{Function (5).}
+\begin{itemize}
+\item \(f = (1-x)^{2} + 80(y-x^{2})^{2} \ge 0\), with equality iff \(y = x^{2}\) and \(x = 1\) \(\Rightarrow\) \((x^{*},y^{*}) = (1,1),\ f^{*} = 0\), unique global min.
+\item Hessian at \((1,1)\): \(H = \bigl(\begin{smallmatrix}642 & -320\\ -320 & 160\end{smallmatrix}\bigr)\);\ \ \(\det H = 320 > 0,\ \operatorname{tr} H > 0\) \(\Rightarrow\) strict min confirmed.
+\end{itemize}
 
 \FloatBarrier
 
