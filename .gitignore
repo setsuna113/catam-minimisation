@@ -31,3 +31,18 @@ Thumbs.db
 *.svg
 *.csv
 *.npz
+run_output.txt
+
+# LaTeX build artifacts
+*.aux
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.synctex.gz
+*.toc
+*.bbl
+*.blg
+
+# Claude Code local settings
+.claude/

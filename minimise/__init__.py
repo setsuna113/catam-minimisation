@@ -6,6 +6,8 @@ from minimise.functions import (
     grad_bedpan,
     grad_quad3,
     grad_rosen,
+    hess_bedpan,
+    hess_rosen,
     numerical_gradient,
 )
 from minimise.algorithms import ConjugateGradient, DFP, SteepestDescent
@@ -14,8 +16,8 @@ from minimise.runner import Step, minimise
 from minimise.reporting import plot_surface, plot_trajectory, print_table
 
 __all__ = [
-    "f_bedpan", "grad_bedpan",
-    "f_rosen", "grad_rosen",
+    "f_bedpan", "grad_bedpan", "hess_bedpan",
+    "f_rosen", "grad_rosen", "hess_rosen",
     "f_quad3", "grad_quad3", "HESS_QUAD3_INV",
     "numerical_gradient",
     "SteepestDescent", "ConjugateGradient", "DFP",

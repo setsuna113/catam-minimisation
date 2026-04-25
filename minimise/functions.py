@@ -33,6 +33,28 @@ def grad_rosen(x: np.ndarray) -> np.ndarray:
     return np.array([df_dx1, df_dx2])
 
 
+def hess_bedpan(x: np.ndarray) -> np.ndarray:
+    """Analytic Hessian of f_bedpan"""
+    x1, x2 = x[0], x[1]
+    return np.array(
+        [
+            [1.0, -2.0 * x2],
+            [-2.0 * x2, -2.0 + 12.0 * x2**2 - 2.0 * x1],
+        ]
+    )
+
+
+def hess_rosen(x: np.ndarray) -> np.ndarray:
+    """Analytic Hessian of f_rosen"""
+    x1, x2 = x[0], x[1]
+    return np.array(
+        [
+            [2.0 - 320.0 * x2 + 960.0 * x1**2, -320.0 * x1],
+            [-320.0 * x1, 160.0],
+        ]
+    )
+
+
 def f_quad3(x: np.ndarray) -> float:
     """Quadratic function - eqn 6"""
     x1, x2, x3 = x[0], x[1], x[2]
