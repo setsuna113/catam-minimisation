@@ -1,4 +1,4 @@
-"""Line-search helpers for choosing lambda*"""
+"""Line-search helpers for choosing lambda*."""
 
 from __future__ import annotations
 from typing import Callable
@@ -35,9 +35,9 @@ def line_search_auto(
     x0: np.ndarray,
     s: np.ndarray,
     bracket: tuple[float, float] = (0.0, 2.0),
-    n_points: int = 201,
+    n_points: int = 20001,
 ) -> float:
-    """Automated lambda* via grid search (precision to ~2 decimal places)"""
+    """Automated lambda* via grid search (Δλ = 10⁻⁴ on the default bracket)"""
     lams = np.linspace(bracket[0], bracket[1], n_points)
     vals = np.array([f(x0 + lam * s) for lam in lams])
     kmin = int(np.argmin(vals))

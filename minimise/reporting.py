@@ -2,12 +2,26 @@
 
 from __future__ import annotations
 
+from pathlib import Path
 from typing import Callable, Sequence
 
 import matplotlib.pyplot as plt
 import numpy as np
 
-from minimise.runner import Step
+from algorithms import ConjugateGradient, DFP, SteepestDescent
+from functions import (
+    HESS_QUAD3_INV,
+    f_bedpan,
+    f_quad3,
+    f_rosen,
+    grad_bedpan,
+    grad_quad3,
+    grad_rosen,
+    hess_bedpan,
+    hess_rosen,
+)
+from line_search import line_search_auto
+from runner import Step, minimise
 
 
 def print_table(
@@ -96,10 +110,6 @@ def plot_surface(
 
 
 if __name__ == "__main__":
-    from pathlib import Path
-
-    from minimise.functions import f_bedpan, f_rosen
-
     xs = np.linspace(-1.5, 1.5, 300)
     ys = np.linspace(-1.5, 1.5, 300)
     X, Y = np.meshgrid(xs, ys)
@@ -156,10 +166,6 @@ if __name__ == "__main__":
     print(f"wrote {out / 'q1_contours.pdf'}")
 
     # --- Question 2: Steepest Descents on f_bedpan from (-1.0, -1.3) ---
-    from minimise.algorithms import SteepestDescent
-    from minimise.functions import grad_bedpan
-    from minimise.runner import minimise
-
     print("\n--- Q2: Steepest Descents on f_bedpan from (-1.0, -1.3) ---")
     x0 = np.array([-1.0, -1.3])
     history_q2 = minimise(
@@ -182,21 +188,12 @@ if __name__ == "__main__":
     print(f"final: x = ({x_final[0]:+.6f}, {x_final[1]:+.6f}),  f = {f_final:.6g}")
 
     # --- Question 3: Steepest Descents on f_rosen from (0.676, 0.443) ---
-    from minimise.algorithms import ConjugateGradient
-    from minimise.functions import grad_rosen
-    from minimise.line_search import line_search_auto
-
-    # f_rosen from (0.676, 0.443) has its optimal lambda ~ 2e-3 in the first step,
-    # well below the coarse 0.01-spacing grid used in Q2. Use a finer grid here.
-    def lam_auto_fine(f, x, s):
-        return line_search_auto(f, x, s, bracket=(0.0, 2.0), n_points=20001)
-
     print("\n--- Q3: Steepest Descents on f_rosen from (0.676, 0.443) ---")
     x0_r = np.array([0.676, 0.443])
     n_iter_r = 12
     history_q3 = minimise(
         SteepestDescent(), f_rosen, grad_rosen, x0_r, n_iter=n_iter_r,
-        lam_source=lam_auto_fine, verbose=False,
+        lam_source="auto", verbose=False,
     )
     print_table(history_q3)
 
@@ -241,7 +238,7 @@ if __name__ == "__main__":
     print("\n--- Q5: Conjugate Gradients on f_rosen from (0.676, 0.443) ---")
     history_q5 = minimise(
         ConjugateGradient(), f_rosen, grad_rosen, x0_r, n_iter=n_iter_r,
-        lam_source=lam_auto_fine, verbose=False,
+        lam_source="auto", verbose=False,
     )
     step_types_q5 = ["--"] + ["SD" if k % 2 == 1 else "CG" for k in range(1, len(history_q5))]
     print_table(history_q5, step_types=step_types_q5)
@@ -272,7 +269,7 @@ if __name__ == "__main__":
 
     def _make_perturbed_auto(factor: float):
         def _wrapper(f, x, s):
-            lam = line_search_auto(f, x, s, bracket=(0.0, 2.0), n_points=20001)
+            lam = line_search_auto(f, x, s)
             return max(0.0, lam * factor)
         return _wrapper
 
@@ -283,7 +280,7 @@ if __name__ == "__main__":
         """
         histories: list[list[Step]] = []
         labels = [
-            "λ* (baseline, fine auto)",
+            "λ* (baseline)",
             f"λ* × {1.0 + rel:.2f} per step",
             f"λ* × {1.0 - rel:.2f} per step",
         ]
@@ -342,15 +339,6 @@ if __name__ == "__main__":
               f"diverges from baseline at k={diverge}")
 
     # --- Question 6: DFP on f_quad3 from (1, 1, 1), 3 iterations with preset λ* ---
-    from minimise.algorithms import DFP
-    from minimise.functions import (
-        HESS_QUAD3_INV,
-        f_quad3,
-        grad_quad3,
-        hess_bedpan,
-        hess_rosen,
-    )
-
     print("\n--- Q6: DFP on f_quad3 from (1, 1, 1), 3 iterations, λ* = [0.3942, 2.5522, 4.2202] ---")
     x0_q = np.array([1.0, 1.0, 1.0])
     lam_q6 = [0.3942, 2.5522, 4.2202]
@@ -415,7 +403,7 @@ if __name__ == "__main__":
     print("\n--- Q8: DFP on f_rosen from (0.676, 0.443), 12 iterations ---")
     history_q8 = minimise(
         DFP(), f_rosen, grad_rosen, x0_r, n_iter=n_iter_r,
-        lam_source=lam_auto_fine, verbose=False,
+        lam_source="auto", verbose=False,
     )
     print_table(history_q8, show_H=True)
 

@@ -7,7 +7,7 @@ from typing import Callable, Sequence
 
 import numpy as np
 
-from minimise.line_search import ask_lambda, line_search_auto
+from line_search import ask_lambda, line_search_auto
 
 
 @dataclass
@@ -117,16 +117,6 @@ def minimise(
                 f"k={k}  λ*={lam:.4g}  x={x_new}  f={f_new:.6g}  Δf={df:+.3g}"
                 f"  |g|={np.linalg.norm(g_new):.3g}"
             )
-
-        if lam_source == "auto":
-            if np.linalg.norm(g_new) < 1e-6:
-                if verbose:
-                    print("  [stop] fully-automatic mode quit: g ≈ 0 (Stationary point)")
-                break
-            if np.linalg.norm(x_new - x) < 1e-6:
-                if verbose:
-                    print("  [stop] fully-automatic mode quit: points not changing significantly")
-                break
 
         x = x_new
         g = g_new

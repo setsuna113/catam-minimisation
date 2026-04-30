@@ -1,4 +1,4 @@
-"""functions definitions, analytic gradients, and numerical gradient checker."""
+"""Function definitions, analytic gradients, and numerical gradient checker."""
 
 from __future__ import annotations
 from typing import Callable

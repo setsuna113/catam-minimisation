@@ -62,45 +62,9 @@
 }
 
 \title{7.3 Minimisation Methods}
-\author{Candidate number: \draftnote{insert candidate number}}
-\date{\draftnote{insert date of final run}}
 
 \begin{document}
 \maketitle
-
-% Length plan:
-% Aim for about 6--8 sides of A4 text, excluding necessary figures and tables.
-% Keep each question answer close to the requested point. Do not copy project text.
-% Use concise mathematical comments, labelled graphs, and selected numerical output.
-% Include all line-search values used, since the project asks for them to appear in the hard copy.
-
-\section*{Computational Setup}
-
-\draftnote{In 3--5 sentences, state the language/environment, double precision, how
-\(\lambda^\ast\) was selected or checked, and how iteration data were recorded. Mention
-any convergence checks only if they affected the reported runs. Avoid implementation detail
-unless it explains a numerical result.}
-
-\begin{table}[htbp]
-\centering
-\caption{Summary of reported runs.}
-\label{tab:runs}
-\begin{tabular}{lllll}
-\toprule
-Run & Function & Method & Starting point & Iterations reported\\
-\midrule
-Q2 & (4) & Steepest descents & \((\cdots,\cdots)\) & \(\cdots\)\\
-Q3 & (5) & Steepest descents & \((\cdots,\cdots)\) & \(\cdots\)\\
-Q4 & (4) & Conjugate gradients & \((\cdots,\cdots)\) & \(\cdots\)\\
-Q5 & (5) & Conjugate gradients & \((\cdots,\cdots)\) & \(\cdots\)\\
-Q6 & (6) & DFP & \((\cdots,\cdots,\cdots)\) & \(\cdots\)\\
-Q7 & (4) & DFP & \((\cdots,\cdots)\) & \(\cdots\)\\
-Q8 & (5) & DFP & \((\cdots,\cdots)\) & \(\cdots\)\\
-\bottomrule
-\end{tabular}
-\end{table}
-
-\FloatBarrier
 
 \section*{Question 1: Shape and Analytic Minima}
 
@@ -149,69 +113,63 @@ $\forall x,y \in \mathbb{R}$, $f = (1-x)^{2} + 80(y-x^{2})^{2} \ge 0$ with equal
 
 \begin{table}[htbp]
 \centering
-\caption{Steepest-descents trace for function (4) from \((-1.0,-1.3)\). Line search: grid search on \(\lambda\in[0,2]\) with step \(0.01\), giving \(\lambda^{\ast}\) to 2 s.f.}
+\caption{Steepest-descents trace for function (4) from \((-1.0,-1.3)\). Line search: grid search on \(\lambda\in[0,2]\) with \(\Delta\lambda=10^{-4}\) (20001 points), giving \(\lambda^{\ast}\) to four decimals.}
 \label{tab:q2-trace}
 \begin{tabular}{rrrrrr}
 \toprule
 \(n\) & \(x_n\) & \(y_n\) & \(\lambda_n^\ast\) & \(f(x_n)\) & \(\Delta f_n\)\\
 \midrule
-0  & \(-1.0000\) & \(-1.3000\) & --   & \(+1.0561\) & --\\
-1  & \(-0.8648\) & \(-0.6770\) & 0.08 & \(-1.0198\) & \(-2.076\)\\
-2  & \(-0.6580\) & \(-0.6399\) & 0.64 & \(-1.0538\) & \(-3.40\times 10^{-2}\)\\
-3  & \(-0.6425\) & \(-0.7295\) & 0.23 & \(-1.0726\) & \(-1.89\times 10^{-2}\)\\
-4  & \(-0.5360\) & \(-0.7104\) & 0.61 & \(-1.0822\) & \(-9.59\times 10^{-3}\)\\
-5  & \(-0.5274\) & \(-0.7577\) & 0.21 & \(-1.0878\) & \(-5.51\times 10^{-3}\)\\
-6  & \(-0.4746\) & \(-0.7453\) & 0.52 & \(-1.0906\) & \(-2.83\times 10^{-3}\)\\
-7  & \(-0.4686\) & \(-0.7707\) & 0.20 & \(-1.0923\) & \(-1.77\times 10^{-3}\)\\
-8  & \(-0.4329\) & \(-0.7638\) & 0.57 & \(-1.0935\) & \(-1.16\times 10^{-3}\)\\
-9  & \(-0.4298\) & \(-0.7797\) & 0.19 & \(-1.0942\) & \(-7.04\times 10^{-4}\)\\
-10 & \(-0.4083\) & \(-0.7757\) & 0.57 & \(-1.0946\) & \(-4.24\times 10^{-4}\)\\
+0  & \(-1.0000\) & \(-1.3000\) & --      & \(+1.0561\)   & --\\
+1  & \(-0.8599\) & \(-0.6544\) & 0.0829  & \(-1.02119\)  & \(-2.077\)\\
+2  & \(-0.3839\) & \(-0.7577\) & 1.652   & \(-1.09201\)  & \(-7.08\times 10^{-2}\)\\
+3  & \(-0.3905\) & \(-0.7881\) & 0.1572  & \(-1.09515\)  & \(-3.14\times 10^{-3}\)\\
+4  & \(-0.3705\) & \(-0.7924\) & 1.714   & \(-1.09527\)  & \(-1.22\times 10^{-4}\)\\
+5  & \(-0.3707\) & \(-0.7935\) & 0.1492  & \(-1.09528\)  & \(-4.20\times 10^{-6}\)\\
+6  & \(-0.3701\) & \(-0.7937\) & 1.706   & \(-1.09528\)  & \(-1.43\times 10^{-7}\)\\
+7  & \(-0.3701\) & \(-0.7937\) & 0.1490  & \(-1.09528\)  & \(-5.66\times 10^{-9}\)\\
+8  & \(-0.3700\) & \(-0.7937\) & 1.697   & \(-1.09528\)  & \(-2.23\times 10^{-10}\)\\
+9  & \(-0.3700\) & \(-0.7937\) & 0.1493  & \(-1.09528\)  & \(-9.84\times 10^{-12}\)\\
+10 & \(-0.3700\) & \(-0.7937\) & 1.598   & \(-1.09528\)  & \(-4.19\times 10^{-13}\)\\
 \bottomrule
 \end{tabular}
 \end{table}
 
 \textbf{Line-search quantisation.}
-The 201-point grid on \(\lambda\in[0,2]\) with \(\Delta\lambda=10^{-2}\) gives a per-step error bounded by \(\tfrac18\phi''(\lambda^{\ast})(\Delta\lambda)^{2}\lesssim 10^{-4}\), well below the observed \(|f_{n}-f^{*}|\sim 10^{-3}\). Quantisation is therefore not the limiting error and is ignored hereafter.
+The 20001-point grid on \(\lambda\in[0,2]\) with \(\Delta\lambda=10^{-4}\) gives a per-step error bounded by \(\tfrac18\phi''(\lambda^{\ast})(\Delta\lambda)^{2}\lesssim 10^{-9}\), far below the observed \(|\Delta f_n|\) at every iteration except \(n=10\) where the two are comparable. Quantisation is therefore not the limiting error and will not be revisited.
 
 \textbf{Linear tail and value estimate.}
 On a convex quadratic, by the Kantorovich inequality~\cite{luenberger-ye}:
 \[
 f_{n+1}-f^{*} \;\le\; \left(\frac{\kappa-1}{\kappa+1}\right)^{\!2}\!(f_{n}-f^{*}), \qquad \kappa=\frac{\lambda_{\max}(H)}{\lambda_{\min}(H)},
 \]
-Hence consider \(r_n=|\Delta f_{n+1}|/|\Delta f_n|\) from Table~\ref{tab:q2-trace}:
+giving worst-case \(r_{K}=0.717\) at the Q1 Hessian \(\kappa\approx 12\) (\(\lambda_{\min}\approx 0.56,\,\lambda_{\max}\approx 6.74\)). The observed per-step ratios \(r_n=|\Delta f_{n+1}|/|\Delta f_n|\) from Table~\ref{tab:q2-trace}:
 \[
-\begin{array}{c|cccccccc}
-n & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9\\\hline
-r_n & 0.554 & 0.509 & 0.575 & 0.513 & 0.625 & 0.655 & 0.609 & 0.602
+\begin{array}{c|ccccccccc}
+n & 1 & 2 & 3 & 4 & 5 & 6 & 7 & 8 & 9\\\hline
+r_n & 0.034 & 0.044 & 0.039 & 0.034 & 0.034 & 0.040 & 0.039 & 0.044 & 0.043
 \end{array}
 \]
-giving \(r\approx 0.60\). Inverting the Kantorovich bound supplies a lower bound \(\kappa\gtrsim 8\) on the local condition number; the true value at \(x^{*}\) (computed from the Hessian in Q1: \(\lambda_{\min}\approx 0.56,\,\lambda_{\max}\approx 6.74\)) is \(\kappa\approx 12\), so the observed rate is below but compatible with the worst-case bound. Modelling the tail as geometric, \(f_n-f^{*}\approx C r^{n}\approx (r/(1-r))|\Delta f_n|\); substituting \(|\Delta f_{10}|=4.24\times 10^{-4}\) and \(r\in[0.58,\,0.66]\) gives \(f_{10}-f^{*}\in[5.9,\,7.9]\times 10^{-4}\). Hence
+sit at \(r\approx 0.04\), an order of magnitude below the Kantorovich worst case. The mechanism: exact line search forces \(g_{n+1}\perp g_n\), and in 2-D the gradient returns to its original direction (up to scale) after two steps, producing the 2-cycle visible in Table~\ref{tab:q2-trace} as \(\lambda^{\ast}\) alternating between \(\sim 0.15\) and \(\sim 1.7\). The per-step contraction of this cycle depends on where \(g\) sits in the eigenbasis of \(H\); Kantorovich's bound is attained only at one specific orientation, and our iterate doesn't visit it. Coarser line-search noise would scramble the 2-cycle back toward typical-Kantorovich behaviour (\(r\approx 0.6\) with \(\Delta\lambda=10^{-2}\)), but \(\Delta\lambda=10^{-4}\) is precise enough to preserve the fast cycle. Modelling the tail as geometric, \(f_{n}-f^{\ast}\approx (r/(1-r))|\Delta f_{n}|\); substituting \(|\Delta f_{10}|=4.2\times 10^{-13}\) and \(r=0.04\) gives \(f_{10}-f^{\ast}\approx 1.8\times 10^{-14}\), at the floating-point floor. Hence
 \[
-\boxed{\;f^{*}\approx -1.0953,\qquad f^{*}\in[-1.096,\,-1.094].\;}
+\boxed{\;f^{\ast}=-1.09528\pm 10^{-13},\qquad\text{i.e.\ machine-precision agreement.}\;}
 \]
 
 \textbf{Coordinate estimates.}
-\emph{(i)} \(x_n\) monotone increasing, bounded above by \(x^{*}\). Even-step differences \(\Delta_2 x_n = x_n - x_{n-2}\): \(0.207\), \(0.107\), \(0.053\), \(0.035\), \(0.022\). Average even-step decay rate (denoted as \(\rho_x\)) \(\approx 0.58\). Model \(x_n = x^{*} - D\rho_x^{n/2}\); single-step tail from $n=11$ is two interleaved GPs of common ratio $\rho_x$ per two iterations. Since \(\Delta x_{11} \approx \rho_x \cdot \Delta x_9\) and \(\Delta x_{12} \approx \rho_x \cdot \Delta x_{10}\):
+With the iterate having reached \(|g_{10}|=6.86\times 10^{-7}\), the Taylor expansion \(g(x^{\ast}+\varepsilon)=H\varepsilon+O(|\varepsilon|^{2})\) and the Rayleigh-quotient bound \(\lambda_{\min}(H)|\varepsilon|\le|H\varepsilon|\) give a direct error estimate
 \[
-x^* - x_{10} = \frac{\rho_x \cdot \Delta x_9}{1 - \rho_x} + \frac{\rho_x \cdot \Delta x_{10}}{1 - \rho_x} = \frac{\rho_x}{1 - \rho_x} (\Delta x_{10} + \Delta x_9) \approx 0.034,
+|\varepsilon|=\|x_{10}-x^{\ast}\|\;\le\;\frac{|g_{10}|}{\lambda_{\min}(H)}+O(|\varepsilon|^{2})\;\approx\;1.2\times 10^{-6}.
 \]
-so $x^{*}\approx -0.37$, and from Range $\rho_x\in[0.50,\,0.75]$: \(x^{*}\in[-0.45,\,-0.30]\).
-
-
-\emph{(ii)} Odd and even subsequences of \(y_n\) \emph{both} monotone decreasing; between-parity gaps halve: \(0.037\), \(0.020\), \(0.013\), \(0.007\), \(0.004\). Hence both bound $y^{*}$ from above; $y^{*}\le y_{10}=-0.7757$. Odd-subseq differences $0.053$, $0.028$, $0.013$, $0.009$, ratio $\rho_y\approx 0.56$. Extrapolate from $y_9$:
-\[
-y^{*}\approx y_9 - \frac{\rho_y}{1-\rho_y}\cdot 0.009 = -0.7797 - \frac{0.56}{0.44}\cdot 0.009 \approx -0.792, \qquad y^{*}\in[-0.82,\,-0.76].
-\]
+The actual displacement, computed against the Q1 closed form, is \(\|x_{10}-x^{\ast}\|=1.7\times 10^{-7}\) --- inside the bound by a factor of \(\sim 7\), reflecting that the gradient is well-aligned with \(\lambda_{\max}\)-eigenvectors near the minimum (Q1 Hessian's larger eigenvalue \(6.74\) dominates). The \emph{coordinate-by-coordinate} extrapolation used at the coarse-grid Q2 budget (interleaved geometric subsequences in \(x_n\) or \(y_n\)) is no longer informative: \(x_n\) is not monotone (\(x_2=-0.384\), \(x_3=-0.391\), \(x_4=-0.371\)) because the fine-grid line search overshoots and corrects within each pair, so a single-sided bound from the trace alone is loose.
 
 \textbf{Value precision vs point precision.}
-After 10 iterations: $f^{*}$ to 4 s.f.\ ($\varepsilon_f \sim 6\times 10^{-4}$); $(x^{*},y^{*})$ to 1--2 s.f.\ ($|\varepsilon|\sim 4\times 10^{-2}$). The observation $\varepsilon_f \sim |\varepsilon|^2$ up to $O(1)$ shows one digit of value precision is gained from a half-digit (square-root) of point precision.
+After 10 iterations: \(f^{\ast}\) to \(\sim 13\) digits (\(\varepsilon_f\sim 10^{-13}\)); \((x^{\ast},y^{\ast})\) to \(\sim 7\) digits (\(|\varepsilon|\sim 10^{-7}\)). The relation \(\varepsilon_f\sim|\varepsilon|^{2}\) up to \(O(1)\) shows one digit of value precision is gained from a half-digit of point precision; both ends are now far below the line-search quantisation floor.
 
 \textbf{Why.}
-Since $g(x^{*})=0$, Taylor expansion at $x=x^{*}+\varepsilon$ gives $f(x^{*}+\varepsilon) = f^{*} + \tfrac12\,\varepsilon^{T}\!H\,\varepsilon + O(|\varepsilon|^{3})$: the linear term vanishes. Applying the Rayleigh-quotient bounds $\lambda_{\min}(H)|\varepsilon|^{2}\le \varepsilon^{T}\!H\,\varepsilon\le \lambda_{\max}(H)|\varepsilon|^{2}$ then yields
+Since \(g(x^{\ast})=0\), Taylor expansion at \(x=x^{\ast}+\varepsilon\) gives \(f(x^{\ast}+\varepsilon)=f^{\ast}+\tfrac12\,\varepsilon^{T}\!H\,\varepsilon+O(|\varepsilon|^{3})\): the linear term vanishes. Applying the Rayleigh-quotient bounds \(\lambda_{\min}(H)|\varepsilon|^{2}\le\varepsilon^{T}\!H\,\varepsilon\le\lambda_{\max}(H)|\varepsilon|^{2}\) then yields
 \[
 \sqrt{\frac{2\,\varepsilon_f}{\lambda_{\max}(H)}} \;\lesssim\; |\varepsilon| \;\lesssim\; \sqrt{\frac{2\,\varepsilon_f}{\lambda_{\min}(H)}}\,.
 \]
-Substituting $\varepsilon_f\sim 6\times 10^{-4}$ and the Q1 eigenvalues $\lambda_{\min}\approx 0.56,\,\lambda_{\max}\approx 6.74$ bounds $|\varepsilon|\in[0.013,\,0.046]$, consistent with the observed $|\varepsilon|\sim 4\times 10^{-2}$. The relation $\varepsilon_f\sim|\varepsilon|^{2}$ is universal at smooth non-degenerate minima: $f$ is flat to first order and curved to second, so location precision is the binding constraint at fixed iteration budget — not line-search quantisation, not value conditioning.
+Substituting \(\varepsilon_f\sim 10^{-13}\) and the Q1 eigenvalues bounds \(|\varepsilon|\in[1.7\times 10^{-7},\,6.0\times 10^{-7}]\), consistent with the observed \(|\varepsilon|=1.7\times 10^{-7}\). The relation \(\varepsilon_f\sim|\varepsilon|^{2}\) is universal at smooth non-degenerate minima: \(f\) is flat to first order and curved to second, so location precision is the binding constraint at fixed iteration budget --- not line-search quantisation, not value conditioning.
 
 \subsection*{Question 3: Function (5)}
 
@@ -224,7 +182,7 @@ Substituting $\varepsilon_f\sim 6\times 10^{-4}$ and the Q1 eigenvalues $\lambda
 
 \begin{table}[htbp]
 \centering
-\caption{Steepest-descents trace for function (5) from $(0.676,0.443)$. Line search: grid on $\lambda\in[0,2]$ with $\Delta\lambda=10^{-4}$ (20001 points), finer than Q2's $10^{-2}$.}
+\caption{Steepest-descents trace for function (5) from $(0.676,0.443)$. Same line search as Q2: grid on $\lambda\in[0,2]$ with $\Delta\lambda=10^{-4}$ (20001 points).}
 \label{tab:q3-trace}
 \begin{tabular}{rrrrrr}
 \toprule
@@ -246,9 +204,6 @@ $n$ & $x_n$ & $y_n$ & $\lambda_n^\ast$ & $f(x_n)$ & $\Delta f_n$\\
 \bottomrule
 \end{tabular}
 \end{table}
-
-\textbf{Line-search quantisation.}
-Finer grid is required because $\lambda_1^{\ast}\approx 2\times 10^{-3}$ lies below Q2's $\Delta\lambda=10^{-2}$: the start is just below the valley ($0.676^{2}=0.4570>0.443$), so $g_0$ has a large $y$-component and the search line crosses the steep valley wall quickly. With $\Delta\lambda=10^{-4}$ the error in $\lambda^{\ast}$ is $\le 5\times 10^{-5}$; per-step error in $f$ is bounded by $\tfrac18\phi''(\lambda^{\ast})(\Delta\lambda)^{2}\lesssim 10^{-9}$, far below observed $|\Delta f|\ge 10^{-4}$. Quantisation is not the limiting error.
 
 \textbf{Limit point.}
 The unique stationary point of $f$ is $(1,1)$: $\partial_y f = 160(y-x^{2})=0\Rightarrow y=x^{2}$, then $\partial_x f = -2(1-x)=0\Rightarrow x=1$. The level set $\{f\le f_0\}$ is bounded, since $f\ge(1-x)^{2}$ gives $|x|\le 1+\sqrt{f_0}$ and $f\ge 80(y-x^{2})^{2}$ then bounds $|y|$. Hence $(x_n)$ is bounded; $f_n$ is monotone decreasing and bounded below by $0$, so $\Delta f_n\to 0$, and the standard SD bound $\Delta f_n\ge c|g_n|^{2}$ (for $c>0$ depending on local Hessian bounds) gives $|g_n|\to 0$. Every subsequential limit is therefore stationary, and uniqueness forces $x_n\to(1,1),\ f^{\ast}=0$.
@@ -304,23 +259,23 @@ Three reinforcing causes, each visible in Figure~\ref{fig:q3-path}:
 
 \begin{table}[htbp]
 \centering
-\caption{Conjugate-gradient trace for function (4) from \((-1.0,-1.3)\). Same line search as Q2 (grid on \(\lambda\in[0,2]\) with spacing \(0.01\)). Restart every \(N=2\) steps: odd-\(n\) steps are SD (restarts), even-\(n\) steps use the conjugate recurrence (7).}
+\caption{Conjugate-gradient trace for function (4) from \((-1.0,-1.3)\). Same line search as Q2 (grid on \(\lambda\in[0,2]\) with \(\Delta\lambda=10^{-4}\)). Restart every \(N=2\) steps: odd-\(n\) steps are SD (restarts), even-\(n\) steps use the conjugate recurrence (7).}
 \label{tab:q4-trace}
 \begin{tabular}{rrrrrrl}
 \toprule
 \(n\) & \(x_n\) & \(y_n\) & \(\lambda_n^\ast\) & \(f(x_n)\) & \(\Delta f_n\) & step\\
 \midrule
-0  & \(-1.0000\) & \(-1.3000\) & --   & \(+1.0561\)  & --                       & --\\
-1  & \(-0.8648\) & \(-0.6770\) & 0.08 & \(-1.0198\)  & \(-2.076\)               & SD\\
-2  & \(-0.6790\) & \(-0.6364\) & 0.57 & \(-1.0509\)  & \(-3.11\times 10^{-2}\)  & CG\\
-3  & \(-0.6588\) & \(-0.7270\) & 0.24 & \(-1.0698\)  & \(-1.89\times 10^{-2}\)  & SD\\
-4  & \(-0.3696\) & \(-0.7991\) & 1.39 & \(-1.0952\)  & \(-2.54\times 10^{-2}\)  & CG\\
-5  & \(-0.3684\) & \(-0.7941\) & 0.15 & \(-1.09527\) & \(-8.89\times 10^{-5}\)  & SD\\
-6  & \(-0.3688\) & \(-0.7942\) & 0.43 & \(-1.09527\) & \(-2.82\times 10^{-7}\)  & CG\\
-7  & \(-0.3689\) & \(-0.7940\) & 0.20 & \(-1.09528\) & \(-1.81\times 10^{-7}\)  & SD\\
-8  & \(-0.3700\) & \(-0.7937\) & 1.32 & \(-1.09528\) & \(-3.79\times 10^{-7}\)  & CG\\
-9  & \(-0.3700\) & \(-0.7937\) & 0.15 & \(-1.09528\) & \(-4.10\times 10^{-10}\) & SD\\
-10 & \(-0.3700\) & \(-0.7937\) & 1.10 & \(-1.09528\) & \(-4.59\times 10^{-12}\) & CG\\
+0  & \(-1.0000\) & \(-1.3000\) & --      & \(+1.0561\)   & --                        & --\\
+1  & \(-0.8599\) & \(-0.6544\) & 0.0829  & \(-1.02119\)  & \(-2.077\)                & SD\\
+2  & \(-0.4101\) & \(-0.7347\) & 1.549   & \(-1.08776\)  & \(-6.66\times 10^{-2}\)   & CG\\
+3  & \(-0.4183\) & \(-0.7807\) & 0.164   & \(-1.09457\)  & \(-6.81\times 10^{-3}\)   & SD\\
+4  & \(-0.3702\) & \(-0.7942\) & 1.761   & \(-1.09527\)  & \(-7.02\times 10^{-4}\)   & CG\\
+5  & \(-0.3701\) & \(-0.7937\) & 0.1483  & \(-1.09528\)  & \(-1.01\times 10^{-6}\)   & SD\\
+6  & \(-0.3700\) & \(-0.7937\) & 1.775   & \(-1.09528\)  & \(-1.99\times 10^{-10}\)  & CG\\
+7  & \(-0.3700\) & \(-0.7937\) & 0.1476  & \(-1.09528\)  & \(-6.06\times 10^{-13}\)  & SD\\
+8  & \(-0.3700\) & \(-0.7937\) & 0.6353  & \(-1.09528\)  & \(-2.00\times 10^{-15}\)  & CG\\
+9  & \(-0.3700\) & \(-0.7937\) & 0.1498  & \(-1.09528\)  & \(-4.44\times 10^{-16}\)  & SD\\
+10 & \(-0.3700\) & \(-0.7937\) & 0.3981  & \(-1.09528\)  & \(-4.44\times 10^{-16}\)  & CG\\
 \bottomrule
 \end{tabular}
 \end{table}
@@ -330,43 +285,40 @@ For \(f(x)=\tfrac12(x-x^{*})^{T}\!A\,(x-x^{*})+c\) with \(A\succ 0\), exact line
 
 \textbf{Three regimes in Table~\ref{tab:q4-trace}.}
 \begin{itemize}
-\item \emph{Pre-quadratic} (\(n=1\)--\(3\)): the iterate is \(\sim 0.4\) from \(x^{*}\) and the quartic term \((y^{2}-x/2)^{2}\) dominates, so the local Hessian model is inaccurate. CG beats SD only marginally: compare \(\Delta f_{2}=-3.1\times 10^{-2}\) with Q2's \(-3.4\times 10^{-2}\).
-\item \emph{Break-out} (\(n=4\), CG): a single step of length \(\|x_{4}-x_{3}\|\approx 0.30\) with \(\lambda^{*}_{4}=1.39\) moves \((-0.659,-0.727)\mapsto(-0.370,-0.799)\), essentially onto \(x^{*}\). This is finite termination at work on the quadratic model fitted at \(n=3,4\).
-\item \emph{Quadratic clean-up} (\(n=5\)--\(10\)): with \(|\varepsilon|\lesssim 10^{-3}\) the cubic Taylor remainder is \(O(|\varepsilon|^{3})\lesssim 10^{-9}\), so each (SD, CG) pair picks up only that residual. This produces the bursts \(|\Delta f_{6}|\sim 10^{-7}\), \(|\Delta f_{10}|\sim 10^{-12}\); per-pair contraction of \(|\Delta f|\) is \(\sim 10^{-5}\) --- super-linear, not geometric.
+\item \emph{Pre-quadratic} (\(n=1\)--\(3\)): the iterate is \(\sim 0.4\) from \(x^{*}\) and the quartic term \((y^{2}-x/2)^{2}\) dominates, so the local Hessian model is inaccurate. CG and SD make comparable progress here: compare \(\Delta f_{2}=-6.7\times 10^{-2}\) (CG) with Q2's \(-7.1\times 10^{-2}\) (SD step 2).
+\item \emph{Break-out} (\(n=4\), CG): a single step with \(\lambda^{*}_{4}=1.761\) moves \((-0.418,-0.781)\mapsto(-0.370,-0.794)\), essentially onto \(x^{*}\). This is finite termination at work on the quadratic model fitted at \(n=3,4\).
+\item \emph{Quadratic clean-up} (\(n=5\)--\(10\)): with \(|\varepsilon|\lesssim 10^{-3}\) the cubic Taylor remainder is \(O(|\varepsilon|^{3})\lesssim 10^{-9}\), so each (SD,\,CG) pair picks up only that residual. This produces \(|\Delta f_{6}|\sim 10^{-10}\), \(|\Delta f_{8}|\sim 10^{-15}\), \(|\Delta f_{9..10}|\sim\varepsilon_{\text{mach}}\); per-pair contraction of \(|\Delta f|\) is \(\sim 10^{-4}\)--\(10^{-5}\) --- super-linear, not geometric, and the iterate is at the floating-point floor by \(n\!\approx\!9\).
 \end{itemize}
 
-\textbf{Line-search quantisation.}
-On the Q2 grid (\(\Delta\lambda=10^{-2}\)) the per-step bound \(\tfrac18\phi''(\lambda^{*})(\Delta\lambda)^{2}\lesssim 10^{-4}\) is unchanged but exceeds \(|\Delta f_n|\) for \(n\ge 5\) by many orders. CG still converges because \(\phi(\lambda)\) is so flat near \(x^{*}\) that the value is insensitive to \(\lambda^{*}\) (e.g.\ \(\lambda^{*}_{6}=0.43\) yields \(|\Delta f_{6}|=2.8\times 10^{-7}\)); the finite-termination cascade is robust to the 2 s.f.\ line search.
-
 \textbf{Numerical estimates from the trace alone.}
-Imagining the analytic answer is unknown: five-digit agreement of \(f\) from \(n=6\) onwards and four-digit agreement of \((x_n,y_n)\) from \(n=8\) onwards, together with \(|g_{10}|=4.4\times 10^{-6}\) and the Q2 Taylor bound \(\varepsilon_f\le\tfrac12\lambda_{\max}(H)|\varepsilon|^{2}\) (with \(\lambda_{\max}(H)\approx 6.3\)), give
+Imagining the analytic answer is unknown: five-digit agreement of \(f\) from \(n=5\) onwards and four-digit agreement of \((x_n,y_n)\) from \(n=6\) onwards, together with \(|g_{10}|=4.8\times 10^{-8}\) and the Q2 Taylor bound \(\varepsilon_f\le\tfrac12\lambda_{\max}(H)|\varepsilon|^{2}\) (with \(\lambda_{\max}(H)\approx 6.3\)), give
 \[
-\boxed{\;f^{*}=-1.09528\pm 1\times 10^{-5},\qquad x^{*}\in[-0.3701,-0.3699],\qquad y^{*}\in[-0.7938,-0.7936].\;}
+\boxed{\;f^{*}=-1.09528\pm 10^{-13},\qquad x^{*}\in[-0.37005,-0.37003],\qquad y^{*}\in[-0.79371,-0.79369].\;}
 \]
-Compared with the Q2 intervals \(f^{*}\in[-1.096,-1.094]\), \(x^{*}\in[-0.45,-0.30]\), \(y^{*}\in[-0.82,-0.76]\) at the same iteration budget, CG tightens the value by \(\sim 10^{2}\) and each coordinate by \(\sim 10^{3}\). Q2's general statement --- that \(\varepsilon_f\sim\tfrac12\lambda_{\max}(H)|\varepsilon|^{2}\), so \(f^{*}\) can be pinned to roughly twice as many digits as \((x^{*},y^{*})\) because \(f\in C^{2}\) with \(H\succ 0\) at \(x^{*}\) --- still holds, but with both sides near the numerical floor the squared-precision bonus is now saturated rather than active.
+At fixed iteration budget the squared-precision bonus from \(\varepsilon_f\sim\tfrac12\lambda_{\max}(H)|\varepsilon|^{2}\) is now saturated against the floating-point floor: \(f\) is pinned at machine precision while the coordinates retain modest-precision uncertainty bounded by \(|g|/\lambda_{\min}(H)\).
 
 \textbf{Comparison with Q2.}
 
 \begin{table}[htbp]
 \centering
-\caption{Same start, same 10 iterations, same line search: SD (Q2) vs CG (Q4) on (4).}
+\caption{Same start, same 10 iterations, same fine-grid line search: SD (Q2) vs CG (Q4) on (4).}
 \label{tab:q4-vs-q2}
 \begin{tabular}{lccc}
 \toprule
 Quantity at \(n=10\) & Q2 (SD) & Q4 (CG) & Improvement factor\\
 \midrule
-\(f_{n}\)                                 & \(-1.0946\)             & \(-1.09528\)            & ---\\
-\(f_{n}-f^{*}\)                           & \(\sim 6\times 10^{-4}\) & \(\lesssim 10^{-8}\)   & \(\sim 10^{5}\)\\
-\((x_{n},y_{n})\)                         & \((-0.408,-0.776)\)     & \((-0.3700,-0.7937)\)   & ---\\
-\(\|(x_{n},y_{n})-(x^{*},y^{*})\|\)       & \(\sim 4\times 10^{-2}\) & \(\sim 10^{-4}\)       & \(\sim 4\times 10^{2}\)\\
-\(|g_{n}|\)                               & \(5\times 10^{-2}\)     & \(4\times 10^{-6}\)     & \(\sim 10^{4}\)\\
-\(|\Delta f_{n}|\)                        & \(4.2\times 10^{-4}\)   & \(4.6\times 10^{-12}\)  & \(\sim 10^{8}\)\\
+\(f_{n}\)                                 & \(-1.09528\)            & \(-1.09528\)            & ---\\
+\(f_{n}-f^{*}\)                           & \(\sim 10^{-13}\)       & \(\lesssim\varepsilon_{\text{mach}}\)   & \(\sim 10^{3}\)\\
+\((x_{n},y_{n})\)                         & \((-0.37004,-0.79370)\) & \((-0.37004,-0.79370)\) & ---\\
+\(\|(x_{n},y_{n})-(x^{*},y^{*})\|\)       & \(1.7\times 10^{-7}\)   & \(4.6\times 10^{-8}\)   & \(\sim 4\)\\
+\(|g_{n}|\)                               & \(6.9\times 10^{-7}\)   & \(4.8\times 10^{-8}\)   & \(\sim 14\)\\
+\(|\Delta f_{n}|\)                        & \(4.2\times 10^{-13}\)  & \(4.4\times 10^{-16}\)  & \(\sim 10^{3}\)\\
 \bottomrule
 \end{tabular}
 \end{table}
 
 \textbf{Interpretation.}
-At Q2's Kantorovich rate \(r\approx 0.60\) the linear-tail extrapolation gives \(f_{10}-f^{*}\sim 10^{-3}\), the SD ceiling. CG instead executes a finite-termination pair on each local quadratic model and pays only the \(O(|\varepsilon|^{3})\) cubic remainder; once \(x\) enters the basin where the Hessian model is valid (here at \(n=4\)) the linear rate becomes super-linear and the remaining iterations are clean-up. The improvement on function (4) is therefore qualitative, not a constant-factor speed-up.
+Under fine-grid line search Q2's SD also approaches machine precision in ten iterations (per-step ratio \(r\approx 0.04\), well below the Kantorovich worst case for \(\kappa\approx 12\)), so CG no longer wins by a qualitative margin --- both methods reach \(f^{*}\) to many digits, and the residual gap is set by how soon each hits the floating-point floor. CG executes a finite-termination pair on each local quadratic model: once \(x\) enters the basin where the Hessian model is valid (here at \(n=4\)) the linear rate becomes super-linear and \(|\Delta f|\) crashes to \(\varepsilon_{\text{mach}}\) by \(n\approx 8\), three iterations earlier than SD. CG's advantage on this well-conditioned target is therefore best stated as \emph{steps to floor}, not as final accuracy at fixed budget.
 
 \subsection*{Question 5: Function (5)}
 
@@ -379,7 +331,7 @@ At Q2's Kantorovich rate \(r\approx 0.60\) the linear-tail extrapolation gives \
 
 \begin{table}[htbp]
 \centering
-\caption{Conjugate-gradient trace for function (5) from \((0.676,0.443)\). Line search: grid on \(\lambda\in[0,2]\) with \(\Delta\lambda=10^{-4}\) (the coarse Q2 grid would miss the \(\lambda^{*}\!\sim\!10^{-3}\) SD steps). With \(N=2\) restart, odd \(n\) are SD (including the first step and every \(N\)-step restart), even \(n\) are CG.}
+\caption{Conjugate-gradient trace for function (5) from \((0.676,0.443)\). Same line search as Q2/Q3 (grid on \(\lambda\in[0,2]\) with \(\Delta\lambda=10^{-4}\)). With \(N=2\) restart, odd \(n\) are SD (including the first step and every \(N\)-step restart), even \(n\) are CG.}
 \label{tab:q5-trace}
 \begin{tabular}{rrrrrrl}
 \toprule
@@ -553,73 +505,76 @@ The Fletcher--Powell induction rests on the exact-line-search orthogonality \(g_
 \begin{figure}[htbp]
 \centering
 \includegraphics[width=0.72\linewidth]{figures/q7_dfp_function4_path.pdf}
-\caption{DFP path on function (4) from \((-1.0,-1.3)\); ten iterations, numbered, with contours of \(f\) for reference. Iterates \(n\ge 7\) coincide with \(n=6\) to machine precision and are not visually distinguishable.}
+\caption{DFP path on function (4) from \((-1.0,-1.3)\); ten iterations, numbered, with contours of \(f\) for reference. Iterates \(n\ge 6\) coincide to machine precision (\(\Delta f=0\) for \(n\ge 7\)) and are not visually distinguishable.}
 \label{fig:q7-path}
 \end{figure}
 
 \begin{table}[htbp]
 \centering
-\caption{DFP trace for function (4) from \((-1.0,-1.3)\). Same line-search grid as Q2 (\(\lambda\in[0,2]\), \(\Delta\lambda=10^{-2}\)). Rows \(n=7,\dots,10\) are omitted because they leave \((x_n,y_n)\) and \(H\) unchanged to machine precision; in particular \(H_{10}=H_{6}\) numerically.}
+\caption{DFP trace for function (4) from \((-1.0,-1.3)\). Same line-search grid as Q2 (\(\lambda\in[0,2]\), \(\Delta\lambda=10^{-4}\)). Rows \(n\ge 7\) reproduce \(n=6\) exactly: \(\lambda^{\ast}=0\) (the grid finds no improvement once \(|g|\) sits at the machine-precision floor) and \((x_n,y_n)\), \(H\) match \((x_6,y_6)\), \(H_6\) in Frobenius norm.}
 \label{tab:q7-trace}
 \begin{tabular}{rrrrrr}
 \toprule
 \(n\) & \(x_n\) & \(y_n\) & \(\lambda_n^\ast\) & \(f(x_n)\) & \(\Delta f_n\)\\
 \midrule
-0 & \(-1.0000\) & \(-1.3000\) & --   & \(+1.0561\)   & --\\
-1 & \(-0.8648\) & \(-0.6770\) & 0.08 & \(-1.0198\)   & \(-2.076\)\\
-2 & \(-0.4157\) & \(-0.7412\) & 1.47 & \(-1.0897\)   & \(-6.99\times 10^{-2}\)\\
-3 & \(-0.3832\) & \(-0.7836\) & 2.00 & \(-1.0951\)   & \(-5.39\times 10^{-3}\)\\
-4 & \(-0.3706\) & \(-0.7936\) & 0.92 & \(-1.09528\)  & \(-1.96\times 10^{-4}\)\\
-5 & \(-0.3700\) & \(-0.7937\) & 1.05 & \(-1.09528\)  & \(-1.15\times 10^{-7}\)\\
-6 & \(-0.3700\) & \(-0.7937\) & 1.00 & \(-1.09528\)  & \(-1.14\times 10^{-12}\)\\
+0  & \(-1.0000\) & \(-1.3000\) & --      & \(+1.0561\)   & --\\
+1  & \(-0.8599\) & \(-0.6544\) & 0.0829  & \(-1.02119\)  & \(-2.077\)\\
+2  & \(-0.4101\) & \(-0.7347\) & 1.551   & \(-1.08776\)  & \(-6.66\times 10^{-2}\)\\
+3  & \(-0.3778\) & \(-0.7849\) & 2.000   & \(-1.09511\)  & \(-7.35\times 10^{-3}\)\\
+4  & \(-0.3701\) & \(-0.7937\) & 0.9052  & \(-1.09528\)  & \(-1.62\times 10^{-4}\)\\
+5  & \(-0.3700\) & \(-0.7937\) & 1.051   & \(-1.09528\)  & \(-5.20\times 10^{-11}\)\\
+6  & \(-0.3700\) & \(-0.7937\) & 0.2579  & \(-1.09528\)  & \(-4.44\times 10^{-16}\)\\
+7  & \(-0.3700\) & \(-0.7937\) & 0       & \(-1.09528\)  & \(0\)\\
+8  & \(-0.3700\) & \(-0.7937\) & 0       & \(-1.09528\)  & \(0\)\\
+9  & \(-0.3700\) & \(-0.7937\) & 0       & \(-1.09528\)  & \(0\)\\
+10 & \(-0.3700\) & \(-0.7937\) & 0       & \(-1.09528\)  & \(0\)\\
 \bottomrule
 \end{tabular}
 \end{table}
 
 \textbf{First step is steepest descents.}
-\(H_0=I\Rightarrow s_0=-g_0\), so step 1 is identical to the Q2 and Q4 openers: \(\lambda_1^{\ast}=0.08\) delivers \((-0.8648,-0.6770)\) with \(f_1=-1.0198\). This is a sanity check: the DFP driver must agree with SD/CG on the first call.
+\(H_0=I\Rightarrow s_0=-g_0\), so step 1 is identical to the Q2 and Q4 openers: \(\lambda_1^{\ast}=0.0829\) delivers \((-0.8599,-0.6544)\) with \(f_1=-1.0212\). This is a sanity check: the DFP driver must agree with SD/CG on the first call.
 
 \textbf{Curvature break-out at \(n=2\).}
-After one rank-two update (8), the direction \(s_2=-H_2 g_2\) is rotated away from \(-g_2\) toward the basin's long axis, and the line search accepts \(\lambda_2^{\ast}=1.47\). The iterate jumps to \((-0.416,-0.741)\) with \(f_2=-1.0897\). This single step already beats the \emph{entire} ten-step SD run of Q2 (\(f_{10}=-1.0946\), \(|x-x^{\ast}|\approx 4\times 10^{-2}\)): one injection of accumulated curvature information outperforms nine repeated gradient-only descents.
+After one rank-two update (8), the direction \(s_2=-H_2 g_2\) is rotated away from \(-g_2\) toward the basin's long axis, and the line search accepts \(\lambda_2^{\ast}=1.551\). The iterate jumps to \((-0.410,-0.735)\) with \(f_2=-1.0878\) --- four-digit value precision in two steps, by injecting accumulated curvature information that pure SD cannot use until the basin has flattened around it.
 
 \textbf{Newton-like tail \(n\ge 3\).}
-For \(n=4,5,6\) the line search returns \(\lambda_n^{\ast}\in\{0.92,1.05,1.00\}\), clustering at \(1\) and consistent with the Newton step \(\Delta x=-[\nabla^{2}f]^{-1}g\) that would be taken if \(H_n\) equalled the true inverse Hessian. At \(n=3\) the search instead hits the grid cap \(\lambda=2\), meaning \(\phi(\lambda)\) was still decreasing at the bracket boundary; this is harmless because the next step corrects, but it flags that \(H_3\) is not yet a saturated inverse-Hessian estimator.
+For \(n=4,5\) the line search returns \(\lambda_n^{\ast}\in\{0.905,\,1.051\}\), clustering at \(1\) and consistent with the Newton step \(\Delta x=-[\nabla^{2}f]^{-1}g\) that would be taken if \(H_n\) equalled the true inverse Hessian. At \(n=3\) the search hits the grid cap \(\lambda=2\), meaning \(\phi(\lambda)\) was still decreasing at the bracket boundary; this is harmless because the next step corrects, but it flags that \(H_3\) is not yet a saturated inverse-Hessian estimator. From \(n=6\) onwards \(|g|\) sits at the machine-precision floor and the line search degenerates: \(\lambda_6^{\ast}=0.258\) is essentially noise (the grid finds a marginal \(|\Delta f|\sim\varepsilon_{\text{mach}}\)), and \(\lambda_7^{\ast}=\dots=\lambda_{10}^{\ast}=0\) because no point on the grid improves on \(x_6\).
 
 \textbf{Super-linear rate.}
 Per-step contraction \(r_n=|\Delta f_{n+1}|/|\Delta f_n|\):
 \[
-\begin{array}{c|ccccc}
-n & 1 & 2 & 3 & 4 & 5\\\hline
-r_n & 3.4\times 10^{-2} & 7.7\times 10^{-2} & 3.6\times 10^{-2} & 5.8\times 10^{-4} & 9.9\times 10^{-6}
+\begin{array}{c|cccc}
+n & 1 & 2 & 3 & 4\\\hline
+r_n & 3.2\times 10^{-2} & 1.1\times 10^{-1} & 2.2\times 10^{-2} & 3.2\times 10^{-7}
 \end{array}
 \]
-\(r_n\to 0\), i.e.\ \(|\Delta f_{n+1}|=o(|\Delta f_n|)\): Q-superlinear convergence, in sharp contrast to Q2's constant \(r\approx 0.60\). The mechanism is the \emph{secant condition} enforced by update (8): \(H^{\ast}p=q\) (verified by direct substitution, since \(H p p^{T} H p/(p^{T}Hp)=Hp\) and \(qq^{T}p/(p^{T}q)=q\)), so \(H\) maps the observed gradient change back to the observed step. Iterating this forces \(H\) to agree with \([\nabla^{2}f]^{-1}\) along the realised search directions, and the asymptotic Newton-step error \(\|(H_n-[\nabla^{2}f(x^{\ast})]^{-1})g_n\|/\|g_n\|\to 0\) gives Q-superlinearity by the Dennis--Mor\'e characterisation~\cite{dennis-more}.
+The collapse \(r_4\ll r_3\) is the secant condition kicking in: update (8) enforces \(H^{\ast}p=q\) (verified by direct substitution, since \(H p p^{T} H p/(p^{T}Hp)=Hp\) and \(qq^{T}p/(p^{T}q)=q\)), so \(H\) maps the observed gradient change back to the observed step. Iterating this forces \(H\) to agree with \([\nabla^{2}f]^{-1}\) along the realised search directions, and the asymptotic Newton-step error \(\|(H_n-[\nabla^{2}f(x^{\ast})]^{-1})g_n\|/\|g_n\|\to 0\) gives Q-superlinearity by the Dennis--Mor\'e characterisation~\cite{dennis-more}. At \(n=5,6\) the iterate has reached the floating-point floor (\(|\Delta f_5|\approx 5\times 10^{-11}\), \(|\Delta f_6|\approx\varepsilon_{\text{mach}}\cdot|f|\approx 4\times 10^{-16}\)); rate analysis past \(n=4\) is not meaningful.
 
 \textbf{Numerical minimum from the trace alone.}
-At \(n=6\), \(|g_6|=1.12\times 10^{-8}\). The local Hessian \(\nabla^{2}f(x^{\ast})\approx\bigl(\begin{smallmatrix}1 & 1.587\\ 1.587 & 6.300\end{smallmatrix}\bigr)\) has eigenvalues \(\lambda_{\min}\approx 0.56,\ \lambda_{\max}\approx 6.74\). Since \(g(x^{\ast}+\varepsilon)=\nabla^{2}f(x^{\ast})\varepsilon+O(|\varepsilon|^{2})\),
+At \(n=6\), \(|g_6|=4.34\times 10^{-8}\). The local Hessian \(\nabla^{2}f(x^{\ast})\approx\bigl(\begin{smallmatrix}1 & 1.587\\ 1.587 & 6.300\end{smallmatrix}\bigr)\) has eigenvalues \(\lambda_{\min}\approx 0.56,\ \lambda_{\max}\approx 6.74\). Since \(g(x^{\ast}+\varepsilon)=\nabla^{2}f(x^{\ast})\varepsilon+O(|\varepsilon|^{2})\),
 \[
-|\varepsilon| \;\le\; \frac{|g|}{\lambda_{\min}}+O(|\varepsilon|^{2})\;\approx\;2.0\times 10^{-8},
+|\varepsilon| \;\le\; \frac{|g|}{\lambda_{\min}}+O(|\varepsilon|^{2})\;\approx\;7.7\times 10^{-8},
 \qquad
-|\varepsilon_{f}| \;\le\; \tfrac12\lambda_{\max}|\varepsilon|^{2}\;\approx\;1.4\times 10^{-15}\;<\;\varepsilon_{\text{mach}}.
+|\varepsilon_{f}| \;\le\; \tfrac12\lambda_{\max}|\varepsilon|^{2}\;\approx\;2.0\times 10^{-14}\;<\;\varepsilon_{\text{mach}}.
 \]
 Therefore, to all reported digits,
 \[
 \boxed{\;x^{\ast}=(-0.37004,\,-0.79370),\qquad f^{\ast}=-1.09528.\;}
 \]
-Compared with the Q2 ten-iteration envelope \(f^{\ast}\in[-1.096,-1.094]\), \(x^{\ast}\in[-0.45,-0.30]\), \(y^{\ast}\in[-0.82,-0.76]\), DFP tightens the value by \(\sim 10^{5}\) and each coordinate by \(\sim 10^{6}\) --- in \emph{fewer} iterations.
 
 \textbf{\(H_6\) versus the true inverse Hessian at \(x_6\).}
 \[
-H_6 = \begin{pmatrix} 1.6679 & -0.4219\\ -0.4219 & 0.2676 \end{pmatrix},\qquad
-\bigl[\nabla^{2}f(x_6)\bigr]^{-1} = \begin{pmatrix} 1.6667 & -0.4200\\ -0.4200 & 0.2646 \end{pmatrix},
+H_6 = \begin{pmatrix} 1.6701 & -0.4234\\ -0.4234 & 0.2680 \end{pmatrix},\qquad
+\bigl[\nabla^{2}f(x_6)\bigr]^{-1} = \begin{pmatrix} 1.6662 & -0.4197\\ -0.4197 & 0.2644 \end{pmatrix},
 \]
 \[
-\bigl\|H_6-[\nabla^{2}f(x_6)]^{-1}\bigr\|_{F} \approx 4.3\times 10^{-3}.
+\bigl\|H_6-[\nabla^{2}f(x_6)]^{-1}\bigr\|_{F} \approx 6.8\times 10^{-3}.
 \]
-Three-significant-figure entry-wise agreement. The residual is not zero, and this is expected: the finite-termination identity \(H_{N}=[\nabla^{2}f]^{-1}\) after \(N\) steps holds only for positive-definite \emph{quadratic} \(f\) with exact line search. Function (4) has a position-dependent Hessian (the quartic term \((y^{2}-x/2)^{2}\) contributes cubic and linear corrections to \(\nabla^{2}f\)), so each rank-two update curls \(H\) around the \emph{local} Hessian rather than the global constant one; moreover the grid line search has error \(O(\Delta\lambda)=10^{-2}\) which feeds into \(q=\lambda^{\ast}s\) in (9). Both effects are consistent with the observed \(4\times 10^{-3}\) deviation. Newton-step quality is nevertheless preserved: the eigenvalues of \(H_6\) are \(\approx 1.79,0.15\), close to the true \(\approx 1.78,0.15\), so \(-H_6 g\) differs from the true Newton direction by only a few degrees.
+Three-significant-figure entry-wise agreement. The residual is not zero, and this is expected: the finite-termination identity \(H_{N}=[\nabla^{2}f]^{-1}\) after \(N\) steps holds only for positive-definite \emph{quadratic} \(f\) with exact line search. Function (4) has a position-dependent Hessian (the quartic term \((y^{2}-x/2)^{2}\) contributes cubic and linear corrections to \(\nabla^{2}f\)), so each rank-two update curls \(H\) around the \emph{local} Hessian rather than the global constant one. Newton-step quality is nevertheless preserved: the eigenvalues of \(H_6\) are \(\approx 1.79,0.15\), close to the true \(\approx 1.78,0.15\), so \(-H_6 g\) differs from the true Newton direction by only a few degrees.
 
 \textbf{Comparison with Q2 (SD) and Q4 (CG).}
-See Table~\ref{tab:q9-comparison}: at the same line-search grid, SD reaches \(f_{10}=-1.09462\) (linear, \(r\!\approx\!0.60\)); CG reaches \(f_{10}=-1.09528\) with \(\|x-x^{\ast}\|\sim 10^{-6}\); DFP reaches the same value with \(\|x-x^{\ast}\|\sim 10^{-9}\) in only six iterations. DFP's break-out at \(n=2\) is two steps earlier than CG's at \(n=4\); from there \(H_n\) improves enough per step to drive the Dennis--Mor\'e residual to zero, giving the Q-superlinear tail. On this moderately-conditioned non-quadratic target, DFP wins decisively.
+See Table~\ref{tab:q9-comparison}: at the unified fine-grid line search, all three methods reach \(f_{10}=-1.09528\) and \(\|x_{10}-x^{\ast}\|<10^{-6}\) on this well-conditioned basin. DFP freezes at the machine-precision floor by \(n=6\); CG reaches \(|\Delta f|\sim\varepsilon_{\text{mach}}\) around \(n=8\); SD is still incrementing at \(|\Delta f|\sim 10^{-13}\) at \(n=10\). DFP's break-out at \(n=2\) is two steps earlier than CG's at \(n=4\); from there \(H_n\) improves enough per step to drive the Dennis--Mor\'e residual to zero, giving the Q-superlinear tail. The qualitative ranking DFP \(\succ\) CG \(\succ\) SD therefore holds in iterations-to-floor, but the gaps in \(\|x-x^{\ast}\|\) at fixed \(n=10\) are now an order of magnitude rather than the \(10^{6}\)-fold seen under the older coarse grid.
 
 \subsection*{Question 8: Function (5)}
 
@@ -715,9 +670,9 @@ See Table~\ref{tab:q9-comparison}: at \(n=12\), SD reaches \(f=2.5\!\times\!10^{
 \toprule
 Function & Method & \(n\) & \(f_n\) & \(\|x_n-x^{\ast}\|\) & \(|g_n|\) & Tail rate\\
 \midrule
-(4) & SD  & 10 & \(-1.09462\)                   & \(4.2\!\times\!10^{-2}\)  & \(5.2\!\times\!10^{-2}\)  & linear, \(r\!\approx\!0.60\)\\
-(4) & CG  & 10 & \(-1.09528\)                   & \(2.0\!\times\!10^{-6}\)  & \(4.4\!\times\!10^{-6}\)  & finite-term., then cubic\\
-(4) & DFP &  6 & \(-1.09528\)                   & \(3.7\!\times\!10^{-9}\)  & \(1.1\!\times\!10^{-8}\)  & Q-superlinear, \(r_n\!\to\!0\)\\
+(4) & SD  & 10 & \(-1.09528\)                   & \(1.7\!\times\!10^{-7}\)  & \(6.9\!\times\!10^{-7}\)  & linear, \(r\!\approx\!0.04\)\\
+(4) & CG  & 10 & \(-1.09528\)                   & \(4.6\!\times\!10^{-8}\)  & \(4.8\!\times\!10^{-8}\)  & finite-term., then super-linear\\
+(4) & DFP & 10 & \(-1.09528\)                   & \(2.1\!\times\!10^{-8}\)  & \(4.3\!\times\!10^{-8}\)  & Q-superlinear (frozen by \(n\!=\!6\))\\
 (5) & SD  & 12 & \(+2.51\!\times\!10^{-2}\)     & \(3.32\!\times\!10^{-1}\) & \(4.7\!\times\!10^{-1}\)  & linear, \(r\!\approx\!0.998\)\\
 (5) & CG  & 12 & \(+1.80\!\times\!10^{-4}\)     & \(2.88\!\times\!10^{-2}\) & \(1.4\!\times\!10^{-1}\)  & linear pair, \(\rho\!\approx\!0.89\)\\
 (5) & DFP & 12 & \(+1.78\!\times\!10^{-28}\)    & \(1.2\!\times\!10^{-14}\) & \(4.9\!\times\!10^{-13}\) & Q-superlinear, empirical \(p\!\approx\!1.5\)\\
@@ -729,7 +684,7 @@ Function & Method & \(n\) & \(f_n\) & \(\|x_n-x^{\ast}\|\) & \(|g_n|\) & Tail ra
 SD on a convex quadratic: Kantorovich~\cite{luenberger-ye} gives the linear rate \(((\kappa-1)/(\kappa+1))^{2}\) (used in Q2, Q3). CG with exact line search on a positive-definite quadratic terminates in \(N\) steps; with \(N\)-restart on non-quadratics each (SD,\,CG) pair terminates the local quadratic model exactly when the line search is exact, giving super-linear cleanup once the iterate enters a basin where the Hessian is approximately constant (Q4), but only a linear pair-rate when the local model varies sharply along the path (Q5, \(\rho\approx 0.89\)). DFP with exact line search on a \(C^{2}\) strictly convex target is Q-superlinear iff \(\|(H_k-\nabla^{2}f(x^{\ast})^{-1})g_k\|/\|g_k\|\to 0\)~\cite{dennis-more}, which is weaker than \(H_k\to\nabla^{2}f(x^{\ast})^{-1}\) in norm and consistent with the nonzero Frobenius residuals reported in Q7/Q8.
 
 \textbf{Function (4): well-conditioned basin.}
-With \(\kappa\approx 8\) (Q2), SD's linear rate \(r\approx 0.60\) gives only one significant figure of \(\|x-x^{\ast}\|\) in ten iterations, while CG (Q4) and DFP (Q7) both terminate the local quadratic model --- DFP one step earlier (\(n=2\), \(\lambda^{\ast}=1.47\)) than CG (\(n=4\), \(\lambda^{\ast}=1.39\)). The three methods agree on \(f^{\ast}=-1.09528\) but their error budgets at shared \(n=10\) span \(10^{7}\) in \(\|x-x^{\ast}\|\).
+With \(\kappa\approx 12\) at the minimum the basin is well-conditioned; under the fine grid (\(\Delta\lambda=10^{-4}\)) all three methods reach \(\|x-x^{\ast}\|\sim 10^{-7}\)--\(10^{-8}\) at \(n=10\), within an order of magnitude of one another (Table~\ref{tab:q9-comparison}). SD's empirical per-step ratio \(r\approx 0.04\) sits well below the Kantorovich worst case \(((\kappa-1)/(\kappa+1))^{2}\approx 0.717\) because exact line search collapses the two-step zigzag onto the basin's principal axis. DFP's curvature break-out occurs one step earlier (\(n=2\), \(\lambda^{\ast}=1.55\)) than CG's (\(n=4\), \(\lambda^{\ast}=1.76\)); both then ride the local quadratic model down to machine-precision residuals, with DFP frozen at \(x_{6}\) for \(n\ge 7\) while CG keeps making \(O(10^{-15})\) progress.
 
 \textbf{Function (5): the DFP regime unlocked.}
 At \((1,1)\), \(\kappa\approx 2\!\times\!10^{3}\) (Q5), driving SD to \(r\approx 0.998\); twelve iterations barely move from the start. CG's break-out pair \(n=3\to 4\) overrides the \(\kappa\)-ceiling, but the linear pair-rate \(\rho\approx 0.89\) persists thereafter. DFP achieves empirical order \(\bar p\approx 1.5\) (Q8): strictly super-linear, consistent with q-quadratic only once the Dennis--Mor\'e residual~\cite{dennis-more} drops further. Matching DFP's twelve-iteration \(f_{12}\!\sim\!10^{-28}\) would require SD \(\sim 3\!\times\!10^{4}\) steps and CG \(\sim 560\) pairs.
